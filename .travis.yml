@@ -24,7 +24,7 @@ jobs:
       script: ./gradlew -b buildSrc/build.gradle.kts test --stacktrace
     - stage: "E2E tests"
       script: ./gradlew test --stacktrace
-    - stage: "Deploy"
+    - stage: "Publish plugin"
       script: skip
       deploy:
         provider: script
