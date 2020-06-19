@@ -1,0 +1,6 @@
+rootProject.name = "prefiller-plugin"
+
+include(":sample:kotlin-groovy-dsl")
+include(":sample:java-groovy-dsl")
+include(":sample:kotlin-kotlin-dsl")
+include(":sample:java-kotlin-dsl")

@@ -1,0 +1,47 @@
+language: android
+dist: trusty
+os: linux
+jdk: oraclejdk8
+
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-29.0.3
+    - android-29
+    - extra-android-m2repository
+
+env:
+  global:
+    - secure: "ZW1DfL56r+NEk7FFJfSpScTOKCuvzncQok0Baq15Cmv58YozH5jQQuG/yDtoKBe2l+3I20DdJ1sSCoUNYJa/bPxrcnwVCScwgiy+ynoWcNV9Dj899MFEkXWvpPtBIiADiK0xTyhsZyGNpVwvnSZTdDyqRc1xgqdQrfgc3JcamvINkgN3hYsAxlHZI7D24MXWfho/bogpEVkMDznm9QbKLkKdHxLexll6fW/Mq5K0pZAVjux0w4eYFr6IOOLd2n3KwPwV37dOq08hpxxoeAn5flLLAnrPLEYGR5jEaPQklHj8s8a8ymTd9YSygycBhSo9YYoiJaEamRjHQKxWRIdwL5Xr+3uy5AC3iNdkEmwi6cnIp50+U9fMQ2BHQb8KNDcnqbbTyQURmIVNTYYCqnmjOOXINeo9aCJjGfoUU+OhkHn0HnEir2ObEdQa3vF5p7+jWH9tU4FVPgBnRCQhmRYnl+Vq0HneaC4JvPl/gGqEUh/jpOigUYzCLMGVoCy/ows+tj1ZgFYVlAQjZn7DDW+5oI4owq0ddgUKaznNYti0LwzG3NoL3ztC+3yTlbwwprL0W9LTxkGkeaKzDF51G/MasMYMcTu6ZfGVXYOElBdFp9oRqdQ2N9hHXj3qNX+HEaL/zto61sl9cfDfKoywnvuur4H3OnmMu/dbaIxQVqGsksk="
+    - secure: "Mb4gGygJFI1820QNTfuheTfJwxUJlTxWVhGLYCG3MmrRKr+7QVTgJSM38wwsq26gnCTYVnkY1A1/x3LVMFLToyzuv08QiCvpVWQ+dPmqNXFMkZkKnT54xJm0Z0NnfERE31brHrt2OwlHFTM5HiQ31T86AeKGndejOIq3wC0x8e432FxIXydOu2i/ydoeyJx7oUwMLLETKNvb4BgJqeLzx8INY71IwyZ2RVTIMTHwbcoQFUVVR7PXn+RZphHLW9C6nJPOc2FXVoSQzhX54ofSzwHobOYjYG+tJSCf2OWDBVE1SdGwS6AIfhEXfIddl511W6MCndUA2iPy2mL8DXcJ/+4yzXI9mDUf2wSUObNHIVWH4RxJjmqOVGt0EeaxODFoHM+3g4STFyqCs6tV3JPIs237pCO4t9mU4yUrESPQwSzyCgD6lHYJPuwQ/SZJDZwlCjGydSwpzoKd4mrnO3xn1GfLBv9BAL3N8w989UCQuz10xYiC8vnGi3AJp7zTiYeVDTb+F2rE+PxvlLcM+AwxN69OBrcoEqZnfW2i/Idy7nrAh6JCSTgj6bCyastm2sxAM9q+k4stq2g7ecsivjOCiszueZ39IMfI+gKTKY925hmCiTJtlXm+nzSjBuKu41YQ2BEpVjijVyAxHyn3/cJ8tN0HEOhiZ8P6tqSCUc/g2fQ="
+
+jobs:
+  include:
+    - stage: "Build"
+      script: ./gradlew -b buildSrc/build.gradle.kts assemble --stacktrace
+    - stage: "Unit tests"
+      script: ./gradlew -b buildSrc/build.gradle.kts test --stacktrace
+    - stage: "E2E tests"
+      script: ./gradlew test --stacktrace
+
+before_deploy:
+  - echo "gradle.publish.key=$GRADLE_PUBLISH_KEY" >> $HOME/.gradle/gradle.properties
+  - echo "gradle.publish.secret=$GRADLE_PUBLISH_SECRET" >> $HOME/.gradle/gradle.properties
+
+deploy:
+  - provider: script
+    script: ./gradlew -b buildSrc/build.gradle.kts publishPlugins
+    on:
+      tags: true
+    edge: true
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
