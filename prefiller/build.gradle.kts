@@ -18,16 +18,16 @@ repositories {
 }
 
 dependencies {
-    antlr("org.antlr:antlr4:${project.properties["versions.antlr"]}")
+    antlr(Dependencies.ANTLR)
 
-    implementation("com.google.code.gson:gson:${project.properties["versions.gson"]}")
-    implementation("org.xerial:sqlite-jdbc:${project.properties["versions.sqlite"]}")
+    implementation(Dependencies.GSON)
+    implementation(Dependencies.SQLITE)
 
-    implementation("com.android.tools.build:gradle:${project.properties["versions.agp"]}")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.properties["versions.kotlin"]}")
+    implementation(Dependencies.AGP)
+    implementation(Dependencies.KOTLIN_GRADLE_PLUGIN)
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${project.properties["versions.junit5"]}")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${project.properties["versions.junit5"]}")
+    testRuntimeOnly(Dependencies.JUNIT_5_ENGINE)
+    testImplementation(Dependencies.JUNIT_5_API)
 }
 
 tasks.withType<KotlinCompile>().configureEach {
