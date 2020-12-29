@@ -1,21 +1,15 @@
-import java.util.Properties
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-// Read gradle.properties of the root project to make versions available
-val properties = Properties()
-rootDir.parentFile.resolve("gradle.properties").reader().use { reader ->
-    properties.load(reader)
-}
 
 plugins {
     `kotlin-dsl`
     antlr
     `java-gradle-plugin`
+    `maven-publish`
     id("com.gradle.plugin-publish") version "0.12.0"
 }
 
 group = "io.github.simonschiller"
-version = "0.1.0"
+version = "0.1.0" // Also update the version in the README
 
 repositories {
     google()
@@ -24,16 +18,16 @@ repositories {
 }
 
 dependencies {
-    antlr("org.antlr:antlr4:${properties["versions.antlr"]}")
+    antlr("org.antlr:antlr4:${project.properties["versions.antlr"]}")
 
-    implementation("com.google.code.gson:gson:${properties["versions.gson"]}")
-    implementation("org.xerial:sqlite-jdbc:${properties["versions.sqlite"]}")
+    implementation("com.google.code.gson:gson:${project.properties["versions.gson"]}")
+    implementation("org.xerial:sqlite-jdbc:${project.properties["versions.sqlite"]}")
 
-    implementation("com.android.tools.build:gradle:${properties["versions.agp"]}")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${properties["versions.kotlin"]}")
+    implementation("com.android.tools.build:gradle:${project.properties["versions.agp"]}")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.properties["versions.kotlin"]}")
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${properties["versions.junit5"]}")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${properties["versions.junit5"]}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${project.properties["versions.junit5"]}")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${project.properties["versions.junit5"]}")
 }
 
 tasks.withType<KotlinCompile>().configureEach {

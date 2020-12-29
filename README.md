@@ -112,11 +112,11 @@ You can find more information on how to do this in the [official Room documentat
 
 ## Working with this project
 
-The source code of the plugin is located in the `buildSrc` folder. The `sample` folder contains several sample projects that show how the plugin is used. The tests of these sample projects also function as E2E tests for the Prefiller plugin.
+The source code of the plugin is located in the `prefiller` folder. The `sample` folder contains several sample projects that show how the plugin is used. The tests of these sample projects also function as E2E tests for the Prefiller plugin.
 
-* Build the plugin: `./gradlew -b buildSrc/build.gradle.kts assemble`
-* Run unit tests: `./gradlew -b buildSrc/build.gradle.kts test`
-* Run E2E tests: `./gradlew test`
+* Build the plugin: `./gradlew :prefiller:assemble`
+* Run unit tests: `./gradlew :prefiller:test`
+* Run all tests: `./gradlew test`
 
 ## License
 
