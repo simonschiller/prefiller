@@ -28,6 +28,13 @@ dependencies {
 
     testRuntimeOnly(Dependencies.JUNIT_5_ENGINE)
     testImplementation(Dependencies.JUNIT_5_API)
+    testImplementation(Dependencies.JUNIT_5_PARAMS)
+}
+
+sourceSets {
+    test.configure {
+        java.srcDirs("$rootDir/buildSrc/src/main/kotlin") // Make versions available in tests
+    }
 }
 
 tasks.withType<KotlinCompile>().configureEach {
