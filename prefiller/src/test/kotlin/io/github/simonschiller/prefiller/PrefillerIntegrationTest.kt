@@ -2,6 +2,7 @@ package io.github.simonschiller.prefiller
 
 import io.github.simonschiller.prefiller.testutil.*
 import io.github.simonschiller.prefiller.testutil.spec.KotlinProjectSpec
+import io.github.simonschiller.prefiller.testutil.spec.NonAndroidProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.ProjectSpec
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.extension.RegisterExtension
@@ -13,6 +14,14 @@ class PrefillerIntegrationTest {
     @JvmField
     @RegisterExtension
     val project = ProjectExtension()
+
+    @ParameterizedTest
+    @ArgumentsSource(TestVersions::class)
+    fun `Build fails if plugin is applied to non-Android projects`(gradleVersion: String, agpVersion: String) {
+        project.setup(gradleVersion, agpVersion, NonAndroidProjectSpec())
+        val result = project.run("clean", expectFailure = true)
+        assertTrue(result.output.contains("Prefiller is only applicable to Android projects"))
+    }
 
     @ParameterizedTest
     @ArgumentsSource(TestVersions::class)

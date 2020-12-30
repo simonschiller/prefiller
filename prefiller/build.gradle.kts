@@ -24,7 +24,7 @@ dependencies {
     implementation(Dependencies.GSON)
     implementation(Dependencies.SQLITE)
 
-    implementation(Dependencies.AGP)
+    compileOnly(Dependencies.AGP)
     implementation(Dependencies.KOTLIN_GRADLE_PLUGIN)
 
     testRuntimeOnly(Dependencies.JUNIT_5_ENGINE)

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION") // Using deprecated APIs to maintain backwards compatibility
+
 package io.github.simonschiller.prefiller
 
 import com.android.build.gradle.BaseExtension
@@ -8,7 +10,6 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import java.io.File
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 
 class DatabaseConfig(val name: String) {
     var classname: String? = null
