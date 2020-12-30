@@ -24,8 +24,8 @@ dependencies {
     implementation(Dependencies.GSON)
     implementation(Dependencies.SQLITE)
 
-    implementation(Dependencies.AGP)
-    implementation(Dependencies.KOTLIN_GRADLE_PLUGIN)
+    compileOnly(Dependencies.AGP)
+    compileOnly(Dependencies.KOTLIN_GRADLE_PLUGIN)
 
     testRuntimeOnly(Dependencies.JUNIT_5_ENGINE)
     testImplementation(Dependencies.JUNIT_5_API)
@@ -45,6 +45,7 @@ tasks.withType<KotlinCompile>().configureEach {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+    dependsOn("publishToMavenLocal")
 
     testLogging {
         events("passed", "skipped", "failed")

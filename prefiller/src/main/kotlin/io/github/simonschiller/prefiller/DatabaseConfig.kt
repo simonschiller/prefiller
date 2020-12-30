@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION") // Using deprecated APIs to maintain backwards compatibility
+
 package io.github.simonschiller.prefiller
 
 import com.android.build.gradle.BaseExtension
@@ -8,7 +10,6 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import java.io.File
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 
 class DatabaseConfig(val name: String) {
     var classname: String? = null
@@ -50,7 +51,12 @@ class DatabaseConfig(val name: String) {
 
     // Read the Room schema location from the annotation processor options
     private fun getSchemaLocation(project: Project, variant: BaseVariant): File {
-        val kaptExtension = project.extensions.findByType(KaptExtension::class.java)
+        val kaptExtension = try {
+            project.extensions.findByType(KaptExtension::class.java)
+        } catch (exception: NoClassDefFoundError) {
+            null // Kotlin plugin not applied -> Java project
+        }
+
         val arguments = if (kaptExtension != null) {
             val androidExtension = project.extensions.getByType(BaseExtension::class.java)
             kaptExtension.getAdditionalArguments(project, variant, androidExtension)

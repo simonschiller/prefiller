@@ -1,22 +1,21 @@
-object Versions {
-    const val COMPILE_SDK = 29
-    const val BUILD_TOOLS = "29.0.2"
+object Versions { // See https://mvnrepository.com
+    const val COMPILE_SDK = 30
     const val MIN_SDK = 21
-    const val TARGET_SDK = 29
+    const val TARGET_SDK = 30
 
-    const val AGP = "4.0.0"
-    const val KOTLIN = "1.3.72"
+    const val AGP = "4.1.1"
+    const val KOTLIN = "1.4.21"
 
-    const val ANTLR = "4.8"
+    const val ANTLR = "4.9"
     const val GSON = "2.8.6"
-    const val SQLITE = "3.31.1"
-    const val JUNIT_5 = "5.6.2"
+    const val SQLITE = "3.34.0"
+    const val JUNIT_5 = "5.7.0"
 
-    const val APPCOMPAT = "1.1.0"
-    const val ROOM = "2.2.5"
-    const val JUNIT_4 = "4.13"
-    const val ANDROIDX_TEST = "1.1.1"
-    const val ROBOLECTRIC = "4.3.1"
+    const val APPCOMPAT = "1.2.0"
+    const val ROOM = "2.2.6"
+    const val JUNIT_4 = "4.13.1"
+    const val ANDROIDX_TEST = "1.1.2"
+    const val ROBOLECTRIC = "4.4"
 }
 
 object Dependencies {

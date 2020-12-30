@@ -7,7 +7,6 @@ android {
     compileSdkVersion(Versions.COMPILE_SDK)
 
     defaultConfig {
-        buildToolsVersion = Versions.BUILD_TOOLS
         minSdkVersion(Versions.MIN_SDK)
         targetSdkVersion(Versions.TARGET_SDK)
         versionCode = 1

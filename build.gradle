@@ -19,10 +19,6 @@ subprojects {
         jcenter()
         mavenCentral()
     }
-
-    tasks.withType(Test) {
-        dependsOn(":prefiller:publishToMavenLocal")
-    }
 }
 
 tasks.register("clean", Delete.class) {

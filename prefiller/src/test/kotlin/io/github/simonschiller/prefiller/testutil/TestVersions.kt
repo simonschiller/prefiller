@@ -14,10 +14,10 @@ open class TestVersions : ArgumentsProvider {
 
     // See https://developer.android.com/studio/releases/gradle-plugin, with respective minimum Gradle version
     private val agpVersions = listOf(
-        "4.0.1" to "6.1.1"
+        "4.0.1" to "6.1.1",
+        "4.1.1" to "6.5.1"
     )
 
-//    protected val versions = listOf("6.7.1" to "4.0.1")
     protected val versions = agpVersions.flatMap { (agpVersion, minGradleVersion) ->
         val minVersion = VersionNumber.parse(minGradleVersion)
         gradleVersions
