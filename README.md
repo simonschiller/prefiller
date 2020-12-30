@@ -22,7 +22,7 @@ First you need to add the Prefiller plugin to your project by adding this block 
 
 ```groovy
 plugins {
-    id "io.github.simonschiller.prefiller" version "0.1.0"
+    id "io.github.simonschiller.prefiller" version "1.0.0"
 }
 ```
 
@@ -36,7 +36,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "io.github.simonschiller:prefiller:0.1.0"
+        classpath "io.github.simonschiller:prefiller:1.0.0"
     }
 }
 ```
@@ -68,8 +68,8 @@ Lastly, you have to configure the Prefiller plugin in your `build.gradle` by lin
 ```groovy
 prefiller {
     database("people") {
-        classname = "com.example.PeopleDatabase"
-        script = file("$projectDir/src/main/sql/setup.sql")
+        classname.set("com.example.PeopleDatabase")
+        script.set(layout.projectDirectory.file("src/main/sql/setup.sql"))
     }
 }
 ```

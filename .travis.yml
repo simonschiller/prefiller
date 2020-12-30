@@ -15,7 +15,7 @@ before_install:
   - echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" >> "$ANDROID_HOME/licenses/android-sdk-license"
 
 install:
-  - ./gradlew :prefiller:publishToMavenLocal --stacktrace
+  - ./gradlew :prefiller:publishToMavenLocal -PexcludeSample --stacktrace
 
 script:
   - ./gradlew test --stacktrace

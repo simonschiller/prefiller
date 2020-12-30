@@ -2,7 +2,9 @@ package io.github.simonschiller.prefiller.testutil
 
 import io.github.simonschiller.prefiller.testutil.spec.ProjectSpec
 import org.gradle.testkit.runner.BuildResult
+import org.gradle.testkit.runner.BuildTask
 import org.gradle.testkit.runner.GradleRunner
+import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.BeforeEachCallback
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -71,4 +73,9 @@ class ProjectExtension : BeforeEachCallback, AfterEachCallback {
             runner.build()
         }
     }
+}
+
+fun List<BuildTask>.outcomeOf(taskName: String): TaskOutcome {
+    val task = singleOrNull { it.path == ":module:$taskName" } ?: error("Could not find task with name $taskName")
+    return task.outcome
 }
