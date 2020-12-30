@@ -1,7 +1,11 @@
 rootProject.name = "prefiller-plugin"
 
 include(":prefiller")
-include(":sample:kotlin-groovy-dsl")
-include(":sample:java-groovy-dsl")
-include(":sample:kotlin-kotlin-dsl")
-include(":sample:java-kotlin-dsl")
+
+// Samples can be excluded to publish the plugin when the API changes
+if (!hasProperty("excludeSample")) {
+    include(":sample:kotlin-groovy-dsl")
+    include(":sample:java-groovy-dsl")
+    include(":sample:kotlin-kotlin-dsl")
+    include(":sample:java-kotlin-dsl")
+}
