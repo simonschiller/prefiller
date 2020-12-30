@@ -33,4 +33,6 @@ open class KotlinNoSchemaLocationProjectSpec : KotlinProjectSpec() {
         }
             
     """.trimIndent()
+
+    override fun toString() = "Kotlin project without schema location configured"
 }

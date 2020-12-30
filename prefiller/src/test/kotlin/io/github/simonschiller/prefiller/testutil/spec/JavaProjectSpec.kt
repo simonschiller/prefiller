@@ -82,4 +82,6 @@ open class JavaProjectSpec : BaseProjectSpec() {
         public abstract class PeopleDatabase extends RoomDatabase {}
             
     """.trimIndent()
+
+    override fun toString() = "Normal Java project"
 }

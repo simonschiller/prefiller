@@ -82,4 +82,6 @@ open class KotlinProjectSpec : BaseProjectSpec() {
         abstract class PeopleDatabase : RoomDatabase()
             
     """.trimIndent()
+
+    override fun toString() = "Normal Kotlin project"
 }

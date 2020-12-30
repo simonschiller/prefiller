@@ -30,4 +30,6 @@ open class JavaNoSchemaLocationProjectSpec : JavaProjectSpec() {
         }
             
     """.trimIndent()
+
+    override fun toString() = "Java project without schema location configured"
 }
