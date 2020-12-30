@@ -24,8 +24,8 @@ open class JavaNoSchemaLocationProjectSpec : JavaProjectSpec() {
         }    
         prefiller {
             database("people") {
-                classname = "com.test.PeopleDatabase"
-                script = file(projectDir.absolutePath + "/setup.sql")
+                classname.set("com.test.PeopleDatabase")
+                script.set(layout.projectDirectory.file("setup.sql"))
             }
         }
             

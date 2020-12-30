@@ -41,12 +41,12 @@ dependencies {
 
 prefiller {
     database("customers") {
-        classname = "io.github.simonschiller.prefiller.sample.customer.CustomerDatabase"
-        script = file("$projectDir/src/main/sql/customers.sql")
+        classname.set("io.github.simonschiller.prefiller.sample.customer.CustomerDatabase")
+        script.set(layout.projectDirectory.file("src/main/sql/customers.sql"))
     }
 
     database("products") {
-        classname = "io.github.simonschiller.prefiller.sample.product.ProductDatabase"
-        script = file("$projectDir/src/main/sql/products.sql")
+        classname.set("io.github.simonschiller.prefiller.sample.product.ProductDatabase")
+        script.set(layout.projectDirectory.file("src/main/sql/products.sql"))
     }
 }

@@ -4,6 +4,7 @@ import io.github.simonschiller.prefiller.testutil.*
 import io.github.simonschiller.prefiller.testutil.spec.KotlinProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.NonAndroidProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.ProjectSpec
+import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
@@ -34,7 +35,6 @@ class PrefillerIntegrationTest {
 
         val result = project.run("prefillPeopleDebugDatabase", expectFailure = true)
         assertTrue(result.output.contains("'schemaDirectory' does not exist"))
-
     }
 
     @ParameterizedTest
@@ -84,5 +84,28 @@ class PrefillerIntegrationTest {
         val mergedAssetsDir = project.moduleDir.resolve("build/intermediates/merged_assets")
         val databaseFile = mergedAssetsDir.resolve("debug/out/people.db")
         assertTrue(databaseFile.exists())
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(TestVersions::class)
+    fun `Up-to-date checks work correctly`(gradleVersion: String, agpVersion: String) {
+        project.setup(gradleVersion, agpVersion, KotlinProjectSpec())
+
+        var result = project.run("prefillPeopleDebugDatabase")
+        assertEquals(TaskOutcome.SUCCESS, result.tasks.outcomeOf("prefillPeopleDebugDatabase"))
+
+        result = project.run("prefillPeopleDebugDatabase")
+        assertEquals(TaskOutcome.UP_TO_DATE, result.tasks.outcomeOf("prefillPeopleDebugDatabase"))
+
+        // Trigger change
+        project.scriptFile.appendText("""
+            INSERT INTO people(name, age) VALUES ("Jorja Maddox", 39);
+        """.trimIndent())
+
+        result = project.run("prefillPeopleDebugDatabase")
+        assertEquals(TaskOutcome.SUCCESS, result.tasks.outcomeOf("prefillPeopleDebugDatabase"))
+
+        result = project.run("prefillPeopleDebugDatabase")
+        assertEquals(TaskOutcome.UP_TO_DATE, result.tasks.outcomeOf("prefillPeopleDebugDatabase"))
     }
 }

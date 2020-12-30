@@ -68,8 +68,8 @@ Lastly, you have to configure the Prefiller plugin in your `build.gradle` by lin
 ```groovy
 prefiller {
     database("people") {
-        classname = "com.example.PeopleDatabase"
-        script = file("$projectDir/src/main/sql/setup.sql")
+        classname.set("com.example.PeopleDatabase")
+        script.set(layout.projectDirectory.file("src/main/sql/setup.sql"))
     }
 }
 ```

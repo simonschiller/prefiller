@@ -7,13 +7,20 @@ import com.android.build.gradle.api.AndroidSourceSet
 import com.android.build.gradle.api.BaseVariant
 import com.android.builder.model.AndroidProject.FD_GENERATED
 import org.gradle.api.Project
+import org.gradle.api.file.Directory
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
+import org.gradle.kotlin.dsl.property
+import org.gradle.util.VersionNumber
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
-import java.io.File
 import java.util.*
 
-class DatabaseConfig(val name: String) {
-    var classname: String? = null
-    var script: File? = null
+@Suppress("UnstableApiUsage")
+class DatabaseConfig internal constructor(val name: String, objects: ObjectFactory) {
+    val classname: Property<String> = objects.property()
+    val script: RegularFileProperty = objects.fileProperty()
 
     internal fun registerTasks(project: Project, variant: BaseVariant) {
         val variantName = variant.name.capitalize(Locale.ROOT)
@@ -21,21 +28,32 @@ class DatabaseConfig(val name: String) {
         val taskName = "prefill$databaseName${variantName}Database"
 
         // Validate configuration
-        val classname = classname ?: error("No classname configured for database $name")
-        val script = script ?: error("No script configured for database $name")
+        val classname = classname.orNull ?: error("No classname configured for database $name")
+        val script = script.asFile.orNull ?: error("No script configured for database $name")
         check(script.isFile && script.canRead() && script.extension.equals("sql", ignoreCase = true)) {
             "Cannot locate script at $script, make sure you specify a valid .sql file"
         }
 
-        val databaseFile = File(project.buildDir, "${FD_GENERATED}/prefiller/${variant.name}/$name.db")
+        val databaseDir = project.layout.buildDirectory.dir("$FD_GENERATED/prefiller/${variant.name}")
+        val databaseFile = databaseDir.map { dir -> dir.file("$name.db") }
         val schemaLocation = getSchemaLocation(project, variant)
 
         // Register task for database
         val task = project.tasks.register(taskName, PrefillerTask::class.java) {
             description = "Generates and pre-fills ${this@DatabaseConfig.name} database for variant ${variant.name}"
-            schemaDirectory =  schemaLocation.resolve(classname)
-            scriptFile = script
-            generatedDatabaseFile = databaseFile
+            scriptFile.set(script)
+            generatedDatabaseFile.set(databaseFile)
+
+            // On Gradle versions earlier than 6.3, we have to resolve the path manually due to a bug
+            val schemaDir = schemaLocation.map { parentDir ->
+                if (VersionNumber.parse(project.gradle.gradleVersion) < VersionNumber.parse("6.3")) {
+                    val fileProvider = project.provider { parentDir.asFile.resolve(classname) }
+                    project.layout.dir(fileProvider).get()
+                } else {
+                    parentDir.dir(classname)
+                }
+            }
+            schemaDirectory.set(schemaDir)
 
             // Room schema has to be generated before the Prefiller task runs
             dependsOn(variant.javaCompileProvider)
@@ -43,29 +61,31 @@ class DatabaseConfig(val name: String) {
 
         // Register the output directory as asset directory and hook task into build process
         val sourceSets = variant.sourceSets.filterIsInstance<AndroidSourceSet>()
-        sourceSets.last().assets.srcDir(databaseFile.parent) // Last source set is the most specific one
+        sourceSets.last().assets.srcDir(databaseDir) // Last source set is the most specific one
         variant.mergeAssetsProvider.configure {
             dependsOn(task)
         }
     }
 
     // Read the Room schema location from the annotation processor options
-    private fun getSchemaLocation(project: Project, variant: BaseVariant): File {
-        val kaptExtension = try {
-            project.extensions.findByType(KaptExtension::class.java)
-        } catch (exception: NoClassDefFoundError) {
-            null // Kotlin plugin not applied -> Java project
-        }
+    private fun getSchemaLocation(project: Project, variant: BaseVariant): Provider<Directory> {
+        val fileProvider = project.provider {
+            val kaptExtension = try {
+                project.extensions.findByType(KaptExtension::class.java)
+            } catch (exception: NoClassDefFoundError) {
+                null // Kotlin plugin not applied -> Java project
+            }
 
-        val arguments = if (kaptExtension != null) {
-            val androidExtension = project.extensions.getByType(BaseExtension::class.java)
-            kaptExtension.getAdditionalArguments(project, variant, androidExtension)
-        } else {
-            variant.javaCompileOptions.annotationProcessorOptions.arguments
-        }
+            val arguments = if (kaptExtension != null) {
+                val androidExtension = project.extensions.getByType(BaseExtension::class.java)
+                kaptExtension.getAdditionalArguments(project, variant, androidExtension)
+            } else {
+                variant.javaCompileOptions.annotationProcessorOptions.arguments
+            }
 
-        // Try to read the schema location from the annotation processor arguments
-        val location = arguments?.get("room.schemaLocation") ?: error("Could not find schema location")
-        return File(location)
+            // Try to read the schema location from the annotation processor arguments
+            project.file(arguments?.get("room.schemaLocation") ?: error("Could not find schema location"))
+        }
+        return project.layout.dir(fileProvider)
     }
 }
