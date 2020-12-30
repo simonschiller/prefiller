@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(properties["versions.compileSdk"].toString().toInt())
+    compileSdkVersion(Versions.COMPILE_SDK)
 
     defaultConfig {
-        buildToolsVersion = properties["versions.buildTools"].toString()
-        minSdkVersion(properties["versions.minSdk"].toString().toInt())
-        targetSdkVersion(properties["versions.targetSdk"].toString().toInt())
+        buildToolsVersion = Versions.BUILD_TOOLS
+        minSdkVersion(Versions.MIN_SDK)
+        targetSdkVersion(Versions.TARGET_SDK)
         versionCode = 1
         versionName = "1.0"
 
@@ -28,13 +28,13 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:${properties["versions.appcompat"]}")
-    implementation("androidx.room:room-runtime:${properties["versions.room"]}")
-    annotationProcessor("androidx.room:room-compiler:${properties["versions.room"]}")
+    implementation(Dependencies.APPCOMPAT)
+    implementation(Dependencies.ROOM_RUNTIME)
+    annotationProcessor(Dependencies.ROOM_COMPILER)
 
-    testImplementation("junit:junit:${properties["versions.junit4"]}")
-    testImplementation("androidx.test.ext:junit:${properties["versions.androidxtest"]}")
-    testImplementation("org.robolectric:robolectric:${properties["versions.robolectric"]}")
+    testImplementation(Dependencies.JUNIT_4)
+    testImplementation(Dependencies.ANDROIDX_TEST)
+    testImplementation(Dependencies.ROBOLECTRIC)
 }
 
 prefiller {

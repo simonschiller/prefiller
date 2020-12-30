@@ -50,22 +50,16 @@ class DatabaseConfig(val name: String) {
 
     // Read the Room schema location from the annotation processor options
     private fun getSchemaLocation(project: Project, variant: BaseVariant): File {
-        val location = schemaLocations.computeIfAbsent(variant.name) {
-            val kaptExtension = project.extensions.findByType(KaptExtension::class.java)
-            val arguments = if (kaptExtension != null) {
-                val androidExtension = project.extensions.getByType(BaseExtension::class.java)
-                kaptExtension.getAdditionalArguments(project, variant, androidExtension)
-            } else {
-                variant.javaCompileOptions.annotationProcessorOptions.arguments
-            }
-
-            // Try to read the schema location from the annotation processor arguments
-            arguments?.get("room.schemaLocation") ?: error("Could not find schema location")
+        val kaptExtension = project.extensions.findByType(KaptExtension::class.java)
+        val arguments = if (kaptExtension != null) {
+            val androidExtension = project.extensions.getByType(BaseExtension::class.java)
+            kaptExtension.getAdditionalArguments(project, variant, androidExtension)
+        } else {
+            variant.javaCompileOptions.annotationProcessorOptions.arguments
         }
-        return File(location)
-    }
 
-    private companion object {
-        val schemaLocations = ConcurrentHashMap<String, String>() // Cache results to avoid repeated lookups
+        // Try to read the schema location from the annotation processor arguments
+        val location = arguments?.get("room.schemaLocation") ?: error("Could not find schema location")
+        return File(location)
     }
 }

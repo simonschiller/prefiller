@@ -32,12 +32,14 @@ internal class SqliteStatementParser(private val file: File) : StatementParser {
     // ANTLR does not throw exceptions by default, we have to do that ourselves
     private class ErrorListener : BaseErrorListener() {
 
-        override fun syntaxError(recognizer: Recognizer<*, *>?,
-                                 offendingSymbol: Any?,
-                                 line: Int,
-                                 charPositionInLine: Int,
-                                 message: String,
-                                 exception: RecognitionException) {
+        override fun syntaxError(
+            recognizer: Recognizer<*, *>?,
+            offendingSymbol: Any?,
+            line: Int,
+            charPositionInLine: Int,
+            message: String?,
+            exception: RecognitionException?
+        ) {
             throw IllegalArgumentException("Could not parse script, error at line $line:$charPositionInLine: $message")
         }
     }

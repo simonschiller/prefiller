@@ -1,12 +1,15 @@
 buildscript {
     repositories {
+        mavenLocal()
         google()
         jcenter()
         mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:${project.properties["versions.agp"]}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.properties["versions.kotlin"]}")
+        classpath(Dependencies.AGP)
+        classpath(Dependencies.KOTLIN_GRADLE_PLUGIN)
+        classpath("io.github.simonschiller:prefiller:+") // Always use the latest version of the plugin
     }
 }
 
@@ -15,6 +18,10 @@ subprojects {
         google()
         jcenter()
         mavenCentral()
+    }
+
+    tasks.withType(Test) {
+        dependsOn(":prefiller:publishToMavenLocal")
     }
 }
 
