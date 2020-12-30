@@ -25,7 +25,7 @@ dependencies {
     implementation(Dependencies.SQLITE)
 
     compileOnly(Dependencies.AGP)
-    implementation(Dependencies.KOTLIN_GRADLE_PLUGIN)
+    compileOnly(Dependencies.KOTLIN_GRADLE_PLUGIN)
 
     testRuntimeOnly(Dependencies.JUNIT_5_ENGINE)
     testImplementation(Dependencies.JUNIT_5_API)

@@ -51,7 +51,12 @@ class DatabaseConfig(val name: String) {
 
     // Read the Room schema location from the annotation processor options
     private fun getSchemaLocation(project: Project, variant: BaseVariant): File {
-        val kaptExtension = project.extensions.findByType(KaptExtension::class.java)
+        val kaptExtension = try {
+            project.extensions.findByType(KaptExtension::class.java)
+        } catch (exception: NoClassDefFoundError) {
+            null // Kotlin plugin not applied -> Java project
+        }
+
         val arguments = if (kaptExtension != null) {
             val androidExtension = project.extensions.getByType(BaseExtension::class.java)
             kaptExtension.getAdditionalArguments(project, variant, androidExtension)
