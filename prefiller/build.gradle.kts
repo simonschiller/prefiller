@@ -45,6 +45,7 @@ tasks.withType<KotlinCompile>().configureEach {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+    dependsOn("publishToMavenLocal")
 
     testLogging {
         events("passed", "skipped", "failed")
