@@ -57,6 +57,10 @@ tasks.withType<AntlrTask>().configureEach {
     arguments = arguments + listOf("-package", "io.github.simonschiller.prefiller.antlr", "-no-listener")
 }
 
+kotlinDslPluginOptions {
+    experimentalWarning.set(false)
+}
+
 gradlePlugin {
     plugins {
         create("prefiller") {
