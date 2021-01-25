@@ -3,10 +3,10 @@ object Versions { // See https://mvnrepository.com
     const val MIN_SDK = 21
     const val TARGET_SDK = 30
 
-    const val AGP = "4.1.1"
+    const val AGP = "4.2.0-beta03"
     const val KOTLIN = "1.4.21"
 
-    const val ANTLR = "4.9"
+    const val ANTLR = "4.9.1"
     const val GSON = "2.8.6"
     const val SQLITE = "3.34.0"
     const val JUNIT_5 = "5.7.0"
@@ -15,7 +15,7 @@ object Versions { // See https://mvnrepository.com
     const val ROOM = "2.2.6"
     const val JUNIT_4 = "4.13.1"
     const val ANDROIDX_TEST = "1.1.2"
-    const val ROBOLECTRIC = "4.4"
+    const val ROBOLECTRIC = "4.5"
 }
 
 object Dependencies {
