@@ -7,8 +7,12 @@ import java.util.*
 abstract class BaseProjectSpec : ProjectSpec {
 
     override fun getSettingsGradleContent(): String = "include(':module')"
-    override fun getGradlePropertiesContent() = "android.useAndroidX=true"
     override fun getLocalPropertiesContent() = "sdk.dir=${getAndroidHome()}"
+
+    override fun getGradlePropertiesContent() = """
+        org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g -XX:MaxPermSize=2g
+        android.useAndroidX=true
+    """.trimIndent()
 
     override fun getAndroidManifestContent() = """
         <manifest package="com.test" />

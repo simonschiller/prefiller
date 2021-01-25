@@ -2,8 +2,8 @@ package io.github.simonschiller.prefiller.testutil.spec
 
 interface ProjectSpec {
     fun getSettingsGradleContent(): String
-    fun getGradlePropertiesContent(): String
     fun getLocalPropertiesContent(): String
+    fun getGradlePropertiesContent(): String
 
     fun getRootBuildGradleContent(agpVersion: String): String
     fun getModuleBuildGradleContent(): String
