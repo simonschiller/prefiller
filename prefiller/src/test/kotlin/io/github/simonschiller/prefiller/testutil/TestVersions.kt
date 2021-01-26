@@ -10,12 +10,21 @@ import java.util.stream.Stream
 open class TestVersions : ArgumentsProvider {
 
     // See https://gradle.org/releases
-    private val gradleVersions = listOf("6.7.1", "6.6.1", "6.5.1", "6.4.1", "6.3", "6.2.2", "6.1.1")
+    private val gradleVersions = listOf(
+        "6.8.1",
+        "6.7.1",
+        "6.6.1",
+        "6.5.1",
+        "6.4.1",
+        "6.3",
+        "6.2.2",
+        "6.1.1"
+    )
 
-    // See https://developer.android.com/studio/releases/gradle-plugin, with respective minimum Gradle version
+    // See https://developer.android.com/studio/releases/gradle-plugin, with minimum Gradle version
     private val agpVersions = listOf(
-        "4.0.1" to "6.1.1",
-        "4.1.1" to "6.5.1"
+        "4.1.2" to "6.5.1",
+        "4.0.1" to "6.1.1"
     )
 
     protected val versions = agpVersions.flatMap { (agpVersion, minGradleVersion) ->
