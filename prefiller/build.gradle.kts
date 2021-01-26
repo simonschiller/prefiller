@@ -46,9 +46,7 @@ tasks.withType<KotlinCompile>().configureEach {
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
     dependsOn("publishToMavenLocal")
-
-    // Avoid out-of-memory errors on CI for Gradle TestKit tests
-    setForkEvery(1)
+    jvmArgs("-Xmx4g", "-XX:MaxMetaspaceSize=1g", "-XX:MaxPermSize=2g")
 
     testLogging {
         events("passed", "skipped", "failed")
