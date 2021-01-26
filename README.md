@@ -1,6 +1,6 @@
-[![Build Status](https://img.shields.io/travis/com/simonschiller/prefiller)](https://travis-ci.com/github/simonschiller/prefiller)
+[![Build Status](https://img.shields.io/github/workflow/status/simonschiller/prefiller/CI)](https://github.com/simonschiller/prefiller/actions)
 [![GitHub Release](https://img.shields.io/github/v/release/simonschiller/prefiller)](https://github.com/simonschiller/prefiller/releases)
-[![License](https://img.shields.io/github/license/simonschiller/prefiller)](https://github.com/simonschiller/prefiller/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/simonschiller/prefiller)](https://github.com/simonschiller/prefiller/blob/main/LICENSE)
 
 # Prefiller
 
