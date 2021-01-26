@@ -7,7 +7,7 @@ object Versions { // See https://mvnrepository.com
 
     const val AGP = "4.2.0-beta03"
 
-    const val ANTLR = "4.9.1"
+    const val ANTLR = "4.9"
     const val GSON = "2.8.6"
     const val SQLITE = "3.34.0"
     const val JUNIT_5 = "5.7.0"
