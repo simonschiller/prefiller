@@ -46,6 +46,7 @@ tasks.withType<KotlinCompile>().configureEach {
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
     dependsOn("publishToMavenLocal")
+    jvmArgs("-XX:MaxMetaspaceSize=2g")
 
     testLogging {
         events("passed", "skipped", "failed")
