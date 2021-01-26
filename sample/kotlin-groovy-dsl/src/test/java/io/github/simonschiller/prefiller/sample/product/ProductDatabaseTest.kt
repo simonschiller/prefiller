@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import io.github.simonschiller.prefiller.sample.order.Order
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -38,5 +39,14 @@ class ProductDatabaseTest {
 
         val products = database.productDao().getAll()
         assertEquals(listOf(thermosiphon, pump, heater), products)
+    }
+
+    @Test
+    fun `Orders are inserted correctly`() {
+        val mustard = Order("Mustard")
+        val mayonnaise = Order("Mayonnaise")
+
+        val orders = database.orderDao().search("M*")
+        assertEquals(listOf(mustard, mayonnaise), orders)
     }
 }

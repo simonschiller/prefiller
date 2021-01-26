@@ -15,6 +15,8 @@ import org.robolectric.annotation.Config;
 import java.util.Arrays;
 import java.util.List;
 
+import io.github.simonschiller.prefiller.sample.order.Order;
+
 import static org.junit.Assert.assertEquals;
 
 @Config(sdk = 28)
@@ -44,5 +46,15 @@ public class ProductDatabaseTest {
 
         List<Product> products = database.productDao().getAll();
         assertEquals(Arrays.asList(thermosiphon, pump, heater), products);
+    }
+
+
+    @Test
+    public void ordersAreInsertedCorrectly() {
+        Order mustard = new Order("Mustard");
+        Order mayonnaise = new Order("Mayonnaise");
+
+        List<Order> orders = database.orderDao().search("M*");
+        assertEquals(Arrays.asList(mustard, mayonnaise), orders);
     }
 }
