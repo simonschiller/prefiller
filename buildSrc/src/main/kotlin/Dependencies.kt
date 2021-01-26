@@ -1,12 +1,13 @@
+import org.gradle.kotlin.dsl.embeddedKotlinVersion
+
 object Versions { // See https://mvnrepository.com
     const val COMPILE_SDK = 30
     const val MIN_SDK = 21
     const val TARGET_SDK = 30
 
     const val AGP = "4.1.1"
-    const val KOTLIN = "1.4.21"
 
-    const val ANTLR = "4.9"
+    const val ANTLR = "4.9.1"
     const val GSON = "2.8.6"
     const val SQLITE = "3.34.0"
     const val JUNIT_5 = "5.7.0"
@@ -15,12 +16,14 @@ object Versions { // See https://mvnrepository.com
     const val ROOM = "2.2.6"
     const val JUNIT_4 = "4.13.1"
     const val ANDROIDX_TEST = "1.1.2"
-    const val ROBOLECTRIC = "4.4"
+    const val ROBOLECTRIC = "4.5"
 }
 
 object Dependencies {
     const val AGP = "com.android.tools.build:gradle:${Versions.AGP}"
-    const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
+
+    val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:$embeddedKotlinVersion"
+    val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$embeddedKotlinVersion"
 
     const val ANTLR = "org.antlr:antlr4:${Versions.ANTLR}"
     const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
@@ -29,7 +32,6 @@ object Dependencies {
     const val JUNIT_5_API = "org.junit.jupiter:junit-jupiter-api:${Versions.JUNIT_5}"
     const val JUNIT_5_PARAMS = "org.junit.jupiter:junit-jupiter-params:${Versions.JUNIT_5}"
 
-    const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.KOTLIN}"
     const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.APPCOMPAT}"
     const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
     const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
