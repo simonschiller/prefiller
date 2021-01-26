@@ -15,6 +15,12 @@ jobs:
     strategy:
       matrix:
         include:
+          # AGP 4.2.*
+          - gradle: 6.8.2
+            agp: 4.2.0-beta03
+          - gradle: 6.7.1
+            agp: 4.2.0-beta03
+
           # AGP 4.1.*
           - gradle: 6.8.2
             agp: 4.1.2

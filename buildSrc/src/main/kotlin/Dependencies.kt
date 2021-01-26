@@ -5,7 +5,7 @@ object Versions { // See https://mvnrepository.com
     const val MIN_SDK = 21
     const val TARGET_SDK = 30
 
-    const val AGP = "4.1.1"
+    const val AGP = "4.2.0-beta03"
 
     const val ANTLR = "4.9.1"
     const val GSON = "2.8.6"
