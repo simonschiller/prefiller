@@ -11,7 +11,7 @@ open class TestVersions : ArgumentsProvider {
 
     // See https://gradle.org/releases
     private val gradleVersions = listOf(
-        "6.8.1",
+        "6.8.2",
         "6.7.1",
         "6.6.1",
         "6.5.1",
@@ -21,48 +21,87 @@ open class TestVersions : ArgumentsProvider {
         "6.1.1"
     )
 
-    // See https://developer.android.com/studio/releases/gradle-plugin, with minimum Gradle version
+    // See https://developer.android.com/studio/releases/gradle-plugin
     private val agpVersions = listOf(
-        "4.1.2" to "6.5.1",
-        "4.0.1" to "6.1.1"
+        "4.1.2",
+        "4.0.2"
     )
 
-    protected val versions = agpVersions.flatMap { (agpVersion, minGradleVersion) ->
-        val minVersion = VersionNumber.parse(minGradleVersion)
-        gradleVersions
-            .filter { gradleVersion -> VersionNumber.parse(gradleVersion) >= minVersion }
-            .map { gradleVersion -> gradleVersion to agpVersion }
+    override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
+        val arguments = mutableListOf<Arguments>()
+        gradleVersions().forEach { gradleVersion ->
+            agpVersions().forEach { agpVersion ->
+                if (agpVersion.baseVersion isCompatibleWith gradleVersion.baseVersion) {
+                    arguments += Arguments.of(gradleVersion.toGradleString(), agpVersion.toString())
+                }
+            }
+        }
+
+        require(arguments.isNotEmpty()) {
+            "Found no compatible AGP and Gradle version combination, check your supplied arguments."
+        }
+        return arguments.stream()
     }
 
-    override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
-        val arguments = Stream.builder<Arguments>()
-        versions.forEach { (gradleVersion, agpVersion) ->
-            arguments.add(Arguments.of(gradleVersion, agpVersion))
+    // Allow setting a single, fixed Gradle version via environment variables
+    private fun gradleVersions(): List<VersionNumber> {
+        val gradleVersion = System.getenv("GRADLE_VERSION")
+        return if (gradleVersion == null) {
+            gradleVersions.map(VersionNumber::parse)
+        } else {
+            listOf(VersionNumber.parse(gradleVersion))
         }
-        return arguments.build()
+    }
+
+    // Allow setting a single, fixed AGP version via environment variables
+    private fun agpVersions(): List<VersionNumber> {
+        val agpVersion = System.getenv("AGP_VERSION")
+        return if (agpVersion == null) {
+            agpVersions.map(VersionNumber::parse)
+        } else {
+            listOf(VersionNumber.parse(agpVersion))
+        }
+    }
+
+    // Checks if a AGP version (receiver) is compatible with a certain version of Gradle
+    private infix fun VersionNumber.isCompatibleWith(gradleVersion: VersionNumber) = when {
+        this >= VersionNumber.parse("4.1.0") -> gradleVersion >= VersionNumber.parse("6.5")
+        this >= VersionNumber.parse("4.0.0") -> gradleVersion >= VersionNumber.parse("6.1.1")
+        else -> false
+    }
+
+    // Converts a VersionNumber in a String without trailing 0 versions
+    private fun VersionNumber.toGradleString(): String {
+        var version = toString()
+        while (version.endsWith(".0")) {
+            version = version.substring(0, version.length - 2)
+        }
+        return version
     }
 }
 
 class LanguageTestVersions : ArgumentsProvider, TestVersions() {
 
     override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
-        val arguments = Stream.builder<Arguments>()
-        versions.forEach { (gradleVersion, agpVersion) ->
-            arguments.add(Arguments.of(gradleVersion, agpVersion, KotlinProjectSpec()))
-            arguments.add(Arguments.of(gradleVersion, agpVersion, JavaProjectSpec()))
+        val arguments = mutableListOf<Arguments>()
+        super.provideArguments(context).forEach { argument ->
+            val (gradleVersion, agpVersion) = argument.get()
+            arguments += Arguments.of(gradleVersion, agpVersion, KotlinProjectSpec())
+            arguments += Arguments.of(gradleVersion, agpVersion, JavaProjectSpec())
         }
-        return arguments.build()
+        return arguments.stream()
     }
 }
 
 class NoSchemaLocationTestVersions : ArgumentsProvider, TestVersions() {
 
     override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
-        val arguments = Stream.builder<Arguments>()
-        versions.forEach { (gradleVersion, agpVersion) ->
-            arguments.add(Arguments.of(gradleVersion, agpVersion, KotlinNoSchemaLocationProjectSpec()))
-            arguments.add(Arguments.of(gradleVersion, agpVersion, JavaNoSchemaLocationProjectSpec()))
+        val arguments = mutableListOf<Arguments>()
+        super.provideArguments(context).forEach { argument ->
+            val (gradleVersion, agpVersion) = argument.get()
+            arguments += Arguments.of(gradleVersion, agpVersion, KotlinNoSchemaLocationProjectSpec())
+            arguments += Arguments.of(gradleVersion, agpVersion, JavaNoSchemaLocationProjectSpec())
         }
-        return arguments.build()
+        return arguments.stream()
     }
 }
