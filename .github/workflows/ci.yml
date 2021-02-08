@@ -11,37 +11,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        include:
-          # AGP 4.1.*
-          - gradle: 6.8.2
-            agp: 4.1.2
-          - gradle: 6.7.1
-            agp: 4.1.2
-          - gradle: 6.6.1
-            agp: 4.1.2
-          - gradle: 6.5.1
-            agp: 4.1.2
-
-          # AGP 4.0.*
-          - gradle: 6.8.2
-            agp: 4.0.2
-          - gradle: 6.7.1
-            agp: 4.0.2
-          - gradle: 6.6.1
-            agp: 4.0.2
-          - gradle: 6.5.1
-            agp: 4.0.2
-          - gradle: 6.4.1
-            agp: 4.0.2
-          - gradle: 6.3
-            agp: 4.0.2
-          - gradle: 6.2.2
-            agp: 4.0.2
-          - gradle: 6.1.1
-            agp: 4.0.2
+        agp: [ 4.1.2, 4.0.2 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -61,6 +33,5 @@ jobs:
 
       - name: Run tests
         env:
-          GRADLE_VERSION: ${{ matrix.gradle }}
           AGP_VERSION: ${{ matrix.agp }}
         run: ./gradlew test --stacktrace
