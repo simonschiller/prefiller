@@ -61,6 +61,6 @@ jobs:
 
       - name: Run tests
         env:
-          GRADLE_VERSION: {{ matrix.gradle }}
-          AGP_VERSION: {{ matrix.agp }}
+          GRADLE_VERSION: ${{ matrix.gradle }}
+          AGP_VERSION: ${{ matrix.agp }}
         run: ./gradlew test --stacktrace
