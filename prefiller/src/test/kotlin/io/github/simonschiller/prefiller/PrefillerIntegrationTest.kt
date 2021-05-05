@@ -34,7 +34,7 @@ class PrefillerIntegrationTest {
         project.moduleBuildGradle.writeText(content)
 
         val result = project.run("prefillPeopleDebugDatabase", expectFailure = true)
-        assertTrue(result.output.contains("'schemaDirectory' does not exist"))
+        assertTrue(result.output.contains("'schemaDirectory'"))
     }
 
     @ParameterizedTest
