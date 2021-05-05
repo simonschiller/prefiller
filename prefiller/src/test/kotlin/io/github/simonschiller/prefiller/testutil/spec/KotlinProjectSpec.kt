@@ -34,6 +34,10 @@ open class KotlinProjectSpec : BaseProjectSpec() {
             	minSdkVersion(${Versions.MIN_SDK})
             	targetSdkVersion(${Versions.TARGET_SDK})
             }
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_1_8
+                targetCompatibility = JavaVersion.VERSION_1_8
+            }
             kapt {
                 arguments {
                     arg("room.schemaLocation", projectDir.absolutePath + "/schemas")

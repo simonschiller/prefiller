@@ -16,6 +16,10 @@ open class JavaNoSchemaLocationProjectSpec : JavaProjectSpec() {
             	minSdkVersion(${Versions.MIN_SDK})
             	targetSdkVersion(${Versions.TARGET_SDK})
             }
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_1_8
+                targetCompatibility = JavaVersion.VERSION_1_8
+            }
         }    
         dependencies {
             implementation("${Dependencies.ROOM_RUNTIME}")
