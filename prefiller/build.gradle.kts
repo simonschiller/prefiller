@@ -6,11 +6,11 @@ plugins {
     antlr
     `java-gradle-plugin`
     `maven-publish`
-    id("com.gradle.plugin-publish") version "0.12.0"
+    id("com.gradle.plugin-publish") version "0.14.0"
 }
 
 group = "io.github.simonschiller"
-version = "1.0.0" // Also update the version in the README
+version = "1.0.1" // Also update the version in the README
 
 repositories {
     google()
@@ -39,9 +39,18 @@ sourceSets {
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
-        freeCompilerArgs += "-Xopt-in=kotlin.ExperimentalStdlibApi"
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.ExperimentalStdlibApi"
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    dependsOn(tasks.named("generateGrammarSource")) // Make sure the ANTLR grammar gets compiled
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    sourceCompatibility = JavaVersion.VERSION_1_8.toString()
+    targetCompatibility = JavaVersion.VERSION_1_8.toString()
+}
+
+tasks.withType<Jar>().configureEach {
     dependsOn(tasks.named("generateGrammarSource")) // Make sure the ANTLR grammar gets compiled
 }
 
@@ -67,10 +76,6 @@ tasks.withType<Test>().configureEach {
 
 tasks.withType<AntlrTask>().configureEach {
     arguments = arguments + listOf("-package", "io.github.simonschiller.prefiller.antlr", "-no-listener")
-}
-
-kotlinDslPluginOptions {
-    experimentalWarning.set(false)
 }
 
 gradlePlugin {

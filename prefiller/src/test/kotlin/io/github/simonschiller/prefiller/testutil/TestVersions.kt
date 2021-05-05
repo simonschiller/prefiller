@@ -11,7 +11,8 @@ open class TestVersions : ArgumentsProvider {
 
     // See https://gradle.org/releases
     private val gradleVersions = listOf(
-        "6.8.2",
+        "7.0",
+        "6.8.3",
         "6.7.1",
         "6.6.1",
         "6.5.1",
@@ -68,15 +69,17 @@ open class TestVersions : ArgumentsProvider {
     private infix fun VersionNumber.isCompatibleWith(gradleVersion: VersionNumber) = when {
         this >= VersionNumber.parse("4.2.0") -> gradleVersion >= VersionNumber.parse("6.7.1")
         this >= VersionNumber.parse("4.1.0") -> gradleVersion >= VersionNumber.parse("6.5")
-        this >= VersionNumber.parse("4.0.0") -> gradleVersion >= VersionNumber.parse("6.1.1")
+        this >= VersionNumber.parse("4.0.0") -> gradleVersion >= VersionNumber.parse("6.1.1") && gradleVersion < VersionNumber.parse("7.0")
         else -> false
     }
 
-    // Converts a VersionNumber in a String without trailing 0 versions
+    // Converts a VersionNumber into a String without trailing 0 versions (keeping at least one .)
     private fun VersionNumber.toGradleString(): String {
         var version = toString()
-        while (version.endsWith(".0")) {
+        var dots = version.count { it == '.' }
+        while (version.endsWith(".0") && dots > 1) {
             version = version.substring(0, version.length - 2)
+            dots--
         }
         return version
     }
