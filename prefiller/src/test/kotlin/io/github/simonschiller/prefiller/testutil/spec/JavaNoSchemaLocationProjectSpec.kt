@@ -9,7 +9,6 @@ open class JavaNoSchemaLocationProjectSpec : JavaProjectSpec() {
         repositories {
             google()
             mavenCentral()
-            jcenter()
         }
         android {
             compileSdkVersion(${Versions.COMPILE_SDK})

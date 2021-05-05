@@ -8,7 +8,6 @@ open class JavaProjectSpec : BaseProjectSpec() {
                 mavenLocal()
                 google()
 		        mavenCentral()
-		        jcenter()
 	        }
 	        dependencies {
 		        classpath("com.android.tools.build:gradle:$agpVersion")
@@ -25,7 +24,6 @@ open class JavaProjectSpec : BaseProjectSpec() {
         repositories {
             google()
             mavenCentral()
-            jcenter()
         }
         android {
             compileSdkVersion(${Versions.COMPILE_SDK})
