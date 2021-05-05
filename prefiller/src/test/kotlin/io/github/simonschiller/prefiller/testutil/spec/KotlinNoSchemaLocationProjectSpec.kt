@@ -11,7 +11,6 @@ open class KotlinNoSchemaLocationProjectSpec : KotlinProjectSpec() {
         repositories {
             google()
             mavenCentral()
-            jcenter()
         }
         android {
             compileSdkVersion(${Versions.COMPILE_SDK})

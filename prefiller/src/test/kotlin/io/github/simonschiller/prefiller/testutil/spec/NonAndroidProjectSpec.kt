@@ -8,7 +8,6 @@ open class NonAndroidProjectSpec : BaseProjectSpec() {
                 mavenLocal()
                 google()
 		        mavenCentral()
-		        jcenter()
 	        }
 	        dependencies {
                 classpath("io.github.simonschiller:prefiller:+")
@@ -23,7 +22,6 @@ open class NonAndroidProjectSpec : BaseProjectSpec() {
         repositories {
             google()
             mavenCentral()
-            jcenter()
         }
             
     """.trimIndent()
