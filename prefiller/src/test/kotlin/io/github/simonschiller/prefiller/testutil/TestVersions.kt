@@ -66,6 +66,11 @@ open class TestVersions : ArgumentsProvider {
         }
     }
 
+    // Checks if a AGP version (receiver) is compatible KSP
+    protected fun VersionNumber.isCompatibleWithKsp(): Boolean {
+        return baseVersion >= VersionNumber.parse("4.1.0")
+    }
+
     // Checks if a AGP version (receiver) is compatible with a certain version of Gradle
     private infix fun VersionNumber.isCompatibleWith(gradleVersion: VersionNumber) = when {
         this >= VersionNumber.parse("4.2.0") -> gradleVersion >= VersionNumber.parse("6.7.1")
@@ -94,7 +99,9 @@ class LanguageTestVersions : ArgumentsProvider, TestVersions() {
             val (gradleVersion, agpVersion) = argument.get()
             arguments += Arguments.of(gradleVersion, agpVersion, JavaProjectSpec())
             arguments += Arguments.of(gradleVersion, agpVersion, KotlinKaptProjectSpec())
-            arguments += Arguments.of(gradleVersion, agpVersion, KotlinKspProjectSpec())
+            if (VersionNumber.parse(agpVersion as String).isCompatibleWithKsp()) {
+                arguments += Arguments.of(gradleVersion, agpVersion, KotlinKspProjectSpec())
+            }
         }
         return arguments.stream()
     }
@@ -108,7 +115,9 @@ class NoSchemaLocationTestVersions : ArgumentsProvider, TestVersions() {
             val (gradleVersion, agpVersion) = argument.get()
             arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationJavaProjectSpec())
             arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationKotlinKaptProjectSpec())
-            arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationKotlinKspProjectSpec())
+            if (VersionNumber.parse(agpVersion as String).isCompatibleWithKsp()) {
+                arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationKotlinKspProjectSpec())
+            }
         }
         return arguments.stream()
     }
