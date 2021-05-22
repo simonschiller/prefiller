@@ -98,11 +98,16 @@ android {
             }
         }
 
-        // Kotlin
+        // Kotlin KAPT
         kapt {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
+        }
+
+        // Kotlin KSP
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
         }
     }
 }

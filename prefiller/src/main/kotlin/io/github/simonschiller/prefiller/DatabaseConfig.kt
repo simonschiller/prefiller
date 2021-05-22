@@ -6,6 +6,7 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.api.AndroidSourceSet
 import com.android.build.gradle.api.BaseVariant
 import com.android.builder.model.AndroidProject.FD_GENERATED
+import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.file.RegularFileProperty
@@ -70,22 +71,49 @@ class DatabaseConfig internal constructor(val name: String, objects: ObjectFacto
     // Read the Room schema location from the annotation processor options
     private fun getSchemaLocation(project: Project, variant: BaseVariant): Provider<Directory> {
         val fileProvider = project.provider {
-            val kaptExtension = try {
-                project.extensions.findByType(KaptExtension::class.java)
-            } catch (exception: NoClassDefFoundError) {
-                null // Kotlin plugin not applied -> Java project
-            }
+            val kaptSchemaLocation = getKaptSchemaLocation(project, variant)
+            val kspSchemaLocation = getKspSchemaLocation(project)
+            val javaAptSchemaLocation = getJavaAptSchemaLocation(variant)
 
-            val arguments = if (kaptExtension != null) {
-                val androidExtension = project.extensions.getByType(BaseExtension::class.java)
-                kaptExtension.getAdditionalArguments(project, variant, androidExtension)
-            } else {
-                variant.javaCompileOptions.annotationProcessorOptions.arguments
+            val schemaLocation = when {
+                kaptSchemaLocation != null -> kaptSchemaLocation
+                kspSchemaLocation != null -> kspSchemaLocation
+                javaAptSchemaLocation != null -> javaAptSchemaLocation
+                else -> error("Could not find schema location")
             }
-
-            // Try to read the schema location from the annotation processor arguments
-            project.file(arguments?.get("room.schemaLocation") ?: error("Could not find schema location"))
+            project.file(schemaLocation)
         }
         return project.layout.dir(fileProvider)
+    }
+
+    private fun getKaptSchemaLocation(project: Project, variant: BaseVariant): String? = try {
+        val kaptExtension = project.extensions.findByType(KaptExtension::class.java)
+        val androidExtension = project.extensions.findByType(BaseExtension::class.java)
+        val arguments = kaptExtension?.getAdditionalArguments(project, variant, androidExtension)
+        arguments?.get(SCHEMA_LOCATION_KEY)
+    } catch (exception: NoClassDefFoundError) {
+        null // KAPT plugin not applied
+    }
+
+    private fun getKspSchemaLocation(project: Project): String? = try {
+        val kspExtension = project.extensions.findByType(KspExtension::class.java)
+        // Arguments were only made public recently (https://github.com/google/ksp/pull/445), so
+        // we're using reflection for now to stay stay compatible with some older versions.
+        // TODO: Switch to public API once it has been released for a while
+        val method = kspExtension?.javaClass?.getMethod("getApOptions\$gradle_plugin")
+        @Suppress("UNCHECKED_CAST")
+        val arguments = method?.invoke(kspExtension) as? Map<String, String>
+        arguments?.get(SCHEMA_LOCATION_KEY)
+    } catch (exception: NoClassDefFoundError) {
+        null // KSP plugin not applied
+    }
+
+    private fun getJavaAptSchemaLocation(variant: BaseVariant): String? {
+        val arguments = variant.javaCompileOptions.annotationProcessorOptions.arguments
+        return arguments[SCHEMA_LOCATION_KEY]
+    }
+
+    private companion object {
+        private const val SCHEMA_LOCATION_KEY = "room.schemaLocation"
     }
 }

@@ -1,6 +1,7 @@
 package io.github.simonschiller.prefiller
 
 import io.github.simonschiller.prefiller.testutil.*
+import io.github.simonschiller.prefiller.testutil.spec.JavaProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.KotlinProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.NonAndroidProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.ProjectSpec
@@ -25,9 +26,9 @@ class PrefillerIntegrationTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(TestVersions::class)
-    fun `Build fails if schema directory is not found`(gradleVersion: String, agpVersion: String) {
-        project.setup(gradleVersion, agpVersion, KotlinProjectSpec())
+    @ArgumentsSource(LanguageTestVersions::class)
+    fun `Build fails if schema directory is not found`(gradleVersion: String, agpVersion: String, projectSpec: ProjectSpec) {
+        project.setup(gradleVersion, agpVersion, projectSpec)
 
         var content = project.moduleBuildGradle.readText()
         content = content.replace("com.test.PeopleDatabase", "com.test.InvalidDatabase")
@@ -38,9 +39,9 @@ class PrefillerIntegrationTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(TestVersions::class)
-    fun `Build fails if SQL file is invalid`(gradleVersion: String, agpVersion: String) {
-        project.setup(gradleVersion, agpVersion, KotlinProjectSpec())
+    @ArgumentsSource(LanguageTestVersions::class)
+    fun `Build fails if SQL file is invalid`(gradleVersion: String, agpVersion: String, projectSpec: ProjectSpec) {
+        project.setup(gradleVersion, agpVersion, projectSpec)
         project.scriptFile.appendText("Normal text is not a valid SQL statement")
 
         val result = project.run("prefillPeopleDebugDatabase", expectFailure = true)
@@ -87,9 +88,9 @@ class PrefillerIntegrationTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(TestVersions::class)
-    fun `Up-to-date checks work correctly`(gradleVersion: String, agpVersion: String) {
-        project.setup(gradleVersion, agpVersion, KotlinProjectSpec())
+    @ArgumentsSource(LanguageTestVersions::class)
+    fun `Up-to-date checks work correctly`(gradleVersion: String, agpVersion: String, projectSpec: ProjectSpec) {
+        project.setup(gradleVersion, agpVersion, projectSpec)
 
         var result = project.run("prefillPeopleDebugDatabase")
         assertEquals(TaskOutcome.SUCCESS, result.tasks.outcomeOf("prefillPeopleDebugDatabase"))

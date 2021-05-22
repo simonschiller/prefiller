@@ -25,6 +25,7 @@ dependencies {
 
     compileOnly(Dependencies.AGP)
     compileOnly(Dependencies.KOTLIN_GRADLE_PLUGIN)
+    compileOnly(Dependencies.KSP_GRADLE_PLUGIN)
 
     testRuntimeOnly(Dependencies.JUNIT_5_ENGINE)
     testImplementation(Dependencies.JUNIT_5_API)

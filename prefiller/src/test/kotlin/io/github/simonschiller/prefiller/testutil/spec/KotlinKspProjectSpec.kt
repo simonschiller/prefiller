@@ -1,11 +1,28 @@
 package io.github.simonschiller.prefiller.testutil.spec
 
-open class NoSchemaLocationKotlinProjectSpec : KotlinProjectSpec() {
+open class KotlinKspProjectSpec : KotlinProjectSpec() {
+
+    override fun getRootBuildGradleContent(agpVersion: String) = """
+        buildscript {
+            repositories {
+                mavenLocal()
+                google()
+		        mavenCentral()
+	        }
+	        dependencies {
+		        classpath("com.android.tools.build:gradle:$agpVersion")
+                classpath("${Dependencies.KOTLIN_GRADLE_PLUGIN}")
+                classpath("${Dependencies.KSP_GRADLE_PLUGIN}")
+                classpath("io.github.simonschiller:prefiller:+")
+	        }
+        }
+            
+    """.trimIndent()
 
     override fun getModuleBuildGradleContent() = """
         apply plugin: "com.android.application"
         apply plugin: "kotlin-android"
-        apply plugin: "kotlin-kapt"
+        apply plugin: "com.google.devtools.ksp"
         apply plugin: "io.github.simonschiller.prefiller"
             
         repositories {
@@ -22,11 +39,14 @@ open class NoSchemaLocationKotlinProjectSpec : KotlinProjectSpec() {
                 sourceCompatibility = JavaVersion.VERSION_1_8
                 targetCompatibility = JavaVersion.VERSION_1_8
             }
+            ksp {
+                arg("room.schemaLocation", projectDir.absolutePath + "/schemas")
+            }
         }    
         dependencies {
             implementation("${Dependencies.KOTLIN_STDLIB}")
             implementation("${Dependencies.ROOM_RUNTIME}")
-            kapt("${Dependencies.ROOM_RUNTIME}")
+            ksp("${Dependencies.ROOM_COMPILER}")
         }    
         prefiller {
             database("people") {
@@ -37,5 +57,5 @@ open class NoSchemaLocationKotlinProjectSpec : KotlinProjectSpec() {
             
     """.trimIndent()
 
-    override fun toString() = "Kotlin project without schema location configured"
+    override fun toString() = "Kotlin project using KSP"
 }

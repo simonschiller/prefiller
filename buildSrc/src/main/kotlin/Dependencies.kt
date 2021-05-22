@@ -6,6 +6,7 @@ object Versions { // See https://mvnrepository.com
     const val TARGET_SDK = 30
 
     const val AGP = "4.2.0"
+    const val KSP = "1.4.31-1.0.0-alpha06"
 
     const val ANTLR = "4.9.2"
     const val GSON = "2.8.6"
@@ -21,6 +22,7 @@ object Versions { // See https://mvnrepository.com
 
 object Dependencies {
     const val AGP = "com.android.tools.build:gradle:${Versions.AGP}"
+    const val KSP_GRADLE_PLUGIN = "com.google.devtools.ksp:symbol-processing-gradle-plugin:${Versions.KSP}"
 
     val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:$embeddedKotlinVersion"
     val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$embeddedKotlinVersion"
