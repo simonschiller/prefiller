@@ -18,6 +18,8 @@ jobs:
           # AGP 4.2.*
           - gradle: 7.0.2
             agp: 4.2.0
+          - gradle: 6.9
+            agp: 4.2.0
           - gradle: 6.8.3
             agp: 4.2.0
           - gradle: 6.7.1
@@ -25,6 +27,8 @@ jobs:
 
           # AGP 4.1.*
           - gradle: 7.0.2
+            agp: 4.1.2
+          - gradle: 6.9
             agp: 4.1.2
           - gradle: 6.8.3
             agp: 4.1.2
@@ -36,6 +40,8 @@ jobs:
             agp: 4.1.2
 
           # AGP 4.0.*
+          - gradle: 6.9
+            agp: 4.0.2
           - gradle: 6.8.3
             agp: 4.0.2
           - gradle: 6.7.1
