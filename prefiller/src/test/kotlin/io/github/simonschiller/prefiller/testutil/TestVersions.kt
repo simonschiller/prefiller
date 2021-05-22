@@ -92,8 +92,9 @@ class LanguageTestVersions : ArgumentsProvider, TestVersions() {
         val arguments = mutableListOf<Arguments>()
         super.provideArguments(context).forEach { argument ->
             val (gradleVersion, agpVersion) = argument.get()
-            arguments += Arguments.of(gradleVersion, agpVersion, KotlinProjectSpec())
             arguments += Arguments.of(gradleVersion, agpVersion, JavaProjectSpec())
+            arguments += Arguments.of(gradleVersion, agpVersion, KotlinKaptProjectSpec())
+            arguments += Arguments.of(gradleVersion, agpVersion, KotlinKspProjectSpec())
         }
         return arguments.stream()
     }
@@ -105,8 +106,9 @@ class NoSchemaLocationTestVersions : ArgumentsProvider, TestVersions() {
         val arguments = mutableListOf<Arguments>()
         super.provideArguments(context).forEach { argument ->
             val (gradleVersion, agpVersion) = argument.get()
-            arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationKotlinProjectSpec())
             arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationJavaProjectSpec())
+            arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationKotlinKaptProjectSpec())
+            arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationKotlinKspProjectSpec())
         }
         return arguments.stream()
     }
