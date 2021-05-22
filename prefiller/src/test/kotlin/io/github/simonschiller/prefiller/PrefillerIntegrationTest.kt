@@ -7,6 +7,7 @@ import io.github.simonschiller.prefiller.testutil.spec.NonAndroidProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.ProjectSpec
 import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
@@ -17,6 +18,7 @@ class PrefillerIntegrationTest {
     @RegisterExtension
     val project = ProjectExtension()
 
+    @Disabled
     @ParameterizedTest
     @ArgumentsSource(TestVersions::class)
     fun `Build fails if plugin is applied to non-Android projects`(gradleVersion: String, agpVersion: String) {
