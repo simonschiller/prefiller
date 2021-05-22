@@ -63,7 +63,7 @@ class DatabaseConfig internal constructor(val name: String, objects: ObjectFacto
         // Register the output directory as asset directory and hook task into build process
         val sourceSets = variant.sourceSets.filterIsInstance<AndroidSourceSet>()
         sourceSets.last().assets.srcDir(databaseDir) // Last source set is the most specific one
-        variant.mergeAssetsProvider.configure {
+        project.tasks.named("generate${variantName}Assets").configure {
             dependsOn(task)
         }
     }
