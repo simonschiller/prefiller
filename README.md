@@ -22,7 +22,7 @@ First you need to add the Prefiller plugin to your project by adding this block 
 
 ```groovy
 plugins {
-    id "io.github.simonschiller.prefiller" version "1.0.1"
+    id "io.github.simonschiller.prefiller" version "1.1.0"
 }
 ```
 
@@ -36,7 +36,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "io.github.simonschiller:prefiller:1.0.1"
+        classpath "io.github.simonschiller:prefiller:1.1.0"
     }
 }
 ```
