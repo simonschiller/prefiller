@@ -1,9 +1,11 @@
 package io.github.simonschiller.prefiller.testutil.spec
 
-open class JavaNoSchemaLocationProjectSpec : JavaProjectSpec() {
+open class NoSchemaLocationKotlinProjectSpec : KotlinProjectSpec() {
 
     override fun getModuleBuildGradleContent() = """
         apply plugin: "com.android.application"
+        apply plugin: "kotlin-android"
+        apply plugin: "kotlin-kapt"
         apply plugin: "io.github.simonschiller.prefiller"
             
         repositories {
@@ -22,8 +24,9 @@ open class JavaNoSchemaLocationProjectSpec : JavaProjectSpec() {
             }
         }    
         dependencies {
+            implementation("${Dependencies.KOTLIN_STDLIB}")
             implementation("${Dependencies.ROOM_RUNTIME}")
-            annotationProcessor("${Dependencies.ROOM_COMPILER}")
+            kapt("${Dependencies.ROOM_RUNTIME}")
         }    
         prefiller {
             database("people") {
@@ -34,5 +37,5 @@ open class JavaNoSchemaLocationProjectSpec : JavaProjectSpec() {
             
     """.trimIndent()
 
-    override fun toString() = "Java project without schema location configured"
+    override fun toString() = "Kotlin project without schema location configured"
 }
