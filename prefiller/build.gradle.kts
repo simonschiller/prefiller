@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `kotlin-dsl`
     antlr
-    `java-gradle-plugin`
     `maven-publish`
     id("com.gradle.plugin-publish") version "0.14.0"
 }
