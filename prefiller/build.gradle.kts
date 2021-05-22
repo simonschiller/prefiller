@@ -64,14 +64,6 @@ tasks.withType<Test>().configureEach {
         events("passed", "skipped", "failed")
         exceptionFormat = TestExceptionFormat.FULL
     }
-
-    // Allow running tests against specific versions of AGP and Gradle
-    project.findProperty("agpVersion")?.let { agpVersion ->
-        environment("AGP_VERSION", agpVersion)
-    }
-    project.findProperty("gradleVersion")?.let { gradleVersion ->
-        environment("GRADLE_VERSION", gradleVersion)
-    }
 }
 
 tasks.withType<AntlrTask>().configureEach {
