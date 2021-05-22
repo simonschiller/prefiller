@@ -8,9 +8,9 @@ Prefiller is a Gradle plugin that generates pre-filled Room databases at compile
 
 ## Motivation
 
-With version 2.2, the Room persistence library added [support for pre-populated databases](https://medium.com/androiddevelopers/packing-the-room-pre-populate-your-database-with-this-one-method-333ae190e680). This works by including a pre-filled database in the assets directory. Generating this database can be tedious and error-prone and has to be repeated whenever the underlying schema changes.
+With version 2.2, the Room persistence library added [support for pre-populated databases](https://medium.com/androiddevelopers/packing-the-room-pre-populate-your-database-with-this-one-method-333ae190e680). This works by including a pre-filled database in the Android app assets. Generating this database can be tedious and error-prone and has to be repeated whenever the underlying schema or data changes.
 
-Prefiller offers a convenient way to generate pre-filled databases at compile time. You simply provide a script file that populates your database, Prefiller takes care of the rest. It will generate a database matching the latest schema, execute your script on this database and include the database in the assets. This way, changing the schema or adding additional pre-filled data is much easier. Additionally, the changes to the pre-filled database are now present in script form, making changes easier to review in pull requests.
+Prefiller offers a convenient way to generate pre-filled databases at compile time. You simply provide a script file which populates your database, Prefiller takes care of the rest. It will generate a database matching the latest schema, execute your script on this database and include the database in the assets. This way, changing the schema or adding additional pre-filled data is much easier. Additionally, the changes to the pre-filled database are now present in script form, making changes easier to review in pull requests.
 
 ## Usage
 
