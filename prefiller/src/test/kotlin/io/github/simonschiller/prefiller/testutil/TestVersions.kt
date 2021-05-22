@@ -105,8 +105,8 @@ class NoSchemaLocationTestVersions : ArgumentsProvider, TestVersions() {
         val arguments = mutableListOf<Arguments>()
         super.provideArguments(context).forEach { argument ->
             val (gradleVersion, agpVersion) = argument.get()
-            arguments += Arguments.of(gradleVersion, agpVersion, KotlinNoSchemaLocationProjectSpec())
-            arguments += Arguments.of(gradleVersion, agpVersion, JavaNoSchemaLocationProjectSpec())
+            arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationKotlinProjectSpec())
+            arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationJavaProjectSpec())
         }
         return arguments.stream()
     }
