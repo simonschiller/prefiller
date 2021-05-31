@@ -25,6 +25,10 @@ abstract class BaseProjectSpec : ProjectSpec {
         INSERT INTO people(name, age) VALUES ("Malachy Wall", 24);
     """.trimIndent()
 
+    override fun generateAdditionalFiles(rootDir: File) {
+        // By default, no additional files are generated
+    }
+
     private fun getAndroidHome(): String {
         System.getenv("ANDROID_HOME")?.let { return it.normaliseLineSeparators() }
 

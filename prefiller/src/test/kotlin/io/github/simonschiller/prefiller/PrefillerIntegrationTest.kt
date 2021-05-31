@@ -1,6 +1,7 @@
 package io.github.simonschiller.prefiller
 
 import io.github.simonschiller.prefiller.testutil.*
+import io.github.simonschiller.prefiller.testutil.spec.DynamicFeatureProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.NonAndroidProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.ProjectSpec
 import org.gradle.testkit.runner.TaskOutcome
@@ -106,5 +107,15 @@ class PrefillerIntegrationTest {
 
         result = project.run("prefillPeopleDebugDatabase")
         assertEquals(TaskOutcome.UP_TO_DATE, result.tasks.outcomeOf("prefillPeopleDebugDatabase"))
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(TestVersions::class)
+    fun `Dynamic feature modules work correctly`(gradleVersion: String, agpVersion: String) {
+        project.setup(gradleVersion, agpVersion, DynamicFeatureProjectSpec())
+        project.run(":module:prefillPeopleDebugDatabase")
+
+        val databaseFile = project.moduleDir.resolve("build/generated/prefiller/debug/people.db")
+        assertTrue(databaseFile.exists())
     }
 }
