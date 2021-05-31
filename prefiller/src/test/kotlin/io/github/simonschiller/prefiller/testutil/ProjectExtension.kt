@@ -56,6 +56,8 @@ class ProjectExtension : BeforeEachCallback, AfterEachCallback {
 
         scriptFile.writeText(projectSpec.getScriptFileContent())
         gradleVersionFile.writeText(gradleVersion)
+
+        projectSpec.generateAdditionalFiles(rootDir)
     }
 
     fun run(vararg arguments: String, expectFailure: Boolean = false): BuildResult {

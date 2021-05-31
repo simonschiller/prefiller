@@ -1,5 +1,7 @@
 package io.github.simonschiller.prefiller.testutil.spec
 
+import java.io.File
+
 interface ProjectSpec {
     fun getSettingsGradleContent(): String
     fun getGradlePropertiesContent(): String
@@ -15,4 +17,6 @@ interface ProjectSpec {
     fun getEntityClassContent(): String
     fun getDatabaseClassName(): String
     fun getDatabaseClassContent(): String
+
+    fun generateAdditionalFiles(rootDir: File)
 }

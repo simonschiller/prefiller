@@ -17,7 +17,7 @@ class PrefillerPlugin : Plugin<Project> {
         // Register tasks when Android plugins are available
         project.plugins.configureEach {
             val variants = when (this) {
-                is AppPlugin -> project.extensions.getByType(AppExtension::class.java).applicationVariants
+                is AppPlugin, is DynamicFeaturePlugin -> project.extensions.getByType(AppExtension::class.java).applicationVariants
                 is LibraryPlugin -> project.extensions.getByType(LibraryExtension::class.java).libraryVariants
                 else -> null
             }
