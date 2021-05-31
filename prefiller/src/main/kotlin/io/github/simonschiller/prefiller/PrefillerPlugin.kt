@@ -10,8 +10,7 @@ class PrefillerPlugin : Plugin<Project> {
         val extension = project.extensions.create("prefiller", PrefillerExtension::class.java)
 
         // Eagerly fail the build if the AGP is not available
-        @Suppress("DEPRECATION")
-        if (!project.plugins.hasPlugin(BasePlugin::class.java)) {
+        if (!project.plugins.hasPlugin("com.android.internal.version-check")) {
             error("Prefiller is only applicable to Android projects")
         }
 
