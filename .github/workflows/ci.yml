@@ -18,7 +18,7 @@ jobs:
         include:
           # AGP 7.0.*
           - gradle: 7.0.2
-            agp: 7.0.0-alpha15
+            agp: 7.0.0-beta03
 
           # AGP 4.2.*
           - gradle: 7.0.2
