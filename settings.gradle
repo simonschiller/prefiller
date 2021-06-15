@@ -4,10 +4,7 @@ include(":prefiller")
 
 // Samples can be excluded to publish the plugin when the API changes
 if (!hasProperty("excludeSample")) {
-    include(":sample:groovy-dsl-java")
-    include(":sample:groovy-dsl-kotlin-kapt")
-    include(":sample:groovy-dsl-kotlin-ksp")
-    include(":sample:kotlin-dsl-java")
-    include(":sample:kotlin-dsl-kotlin-kapt")
-    include(":sample:kotlin-dsl-kotlin-ksp")
+    include(":sample:java")
+    include(":sample:kotlin-kapt")
+    include(":sample:kotlin-ksp")
 }
