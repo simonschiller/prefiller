@@ -1,7 +1,7 @@
 package io.github.simonschiller.prefiller.testutil
 
+import io.github.simonschiller.prefiller.internal.util.Version
 import io.github.simonschiller.prefiller.testutil.spec.*
-import org.gradle.util.VersionNumber
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
@@ -36,8 +36,8 @@ open class TestVersions : ArgumentsProvider {
         val arguments = mutableListOf<Arguments>()
         gradleVersions().forEach { gradleVersion ->
             agpVersions().forEach { agpVersion ->
-                if (agpVersion.baseVersion isCompatibleWith gradleVersion.baseVersion) {
-                    arguments += Arguments.of(gradleVersion.toGradleString(), agpVersion.toString())
+                if (agpVersion.baseVersion() isCompatibleWith gradleVersion.baseVersion()) {
+                    arguments += Arguments.of(gradleVersion.toString(), agpVersion.toString())
                 }
             }
         }
@@ -49,48 +49,37 @@ open class TestVersions : ArgumentsProvider {
     }
 
     // Allow setting a single, fixed Gradle version via environment variables
-    private fun gradleVersions(): List<VersionNumber> {
+    private fun gradleVersions(): List<Version> {
         val gradleVersion = System.getenv("GRADLE_VERSION")
         return if (gradleVersion == null) {
-            gradleVersions.map(VersionNumber::parse)
+            gradleVersions.map(Version::parse)
         } else {
-            listOf(VersionNumber.parse(gradleVersion))
+            listOf(Version.parse(gradleVersion))
         }
     }
 
     // Allow setting a single, fixed AGP version via environment variables
-    private fun agpVersions(): List<VersionNumber> {
+    private fun agpVersions(): List<Version> {
         val agpVersion = System.getenv("AGP_VERSION")
         return if (agpVersion == null) {
-            agpVersions.map(VersionNumber::parse)
+            agpVersions.map(Version::parse)
         } else {
-            listOf(VersionNumber.parse(agpVersion))
+            listOf(Version.parse(agpVersion))
         }
     }
 
     // Checks if a AGP version (receiver) is compatible KSP
-    protected fun VersionNumber.isCompatibleWithKsp(): Boolean {
-        return baseVersion >= VersionNumber.parse("4.1.0")
+    protected fun Version.isCompatibleWithKsp(): Boolean {
+        return baseVersion() >= Version.parse("4.1.0")
     }
 
     // Checks if a AGP version (receiver) is compatible with a certain version of Gradle
-    private infix fun VersionNumber.isCompatibleWith(gradleVersion: VersionNumber) = when {
-        this >= VersionNumber.parse("7.0.0") -> gradleVersion >= VersionNumber.parse("7.0")
-        this >= VersionNumber.parse("4.2.0") -> gradleVersion >= VersionNumber.parse("6.7.1")
-        this >= VersionNumber.parse("4.1.0") -> gradleVersion >= VersionNumber.parse("6.5")
-        this >= VersionNumber.parse("4.0.0") -> gradleVersion >= VersionNumber.parse("6.1.1") && gradleVersion < VersionNumber.parse("7.0")
+    private infix fun Version.isCompatibleWith(gradleVersion: Version) = when {
+        this >= Version.parse("7.0.0") -> gradleVersion >= Version.parse("7.0")
+        this >= Version.parse("4.2.0") -> gradleVersion >= Version.parse("6.7.1")
+        this >= Version.parse("4.1.0") -> gradleVersion >= Version.parse("6.5")
+        this >= Version.parse("4.0.0") -> gradleVersion >= Version.parse("6.1.1") && gradleVersion < Version.parse("7.0")
         else -> false
-    }
-
-    // Converts a VersionNumber into a String without trailing 0 versions (keeping at least one .)
-    private fun VersionNumber.toGradleString(): String {
-        var version = toString()
-        var dots = version.count { it == '.' }
-        while (version.endsWith(".0") && dots > 1) {
-            version = version.substring(0, version.length - 2)
-            dots--
-        }
-        return version
     }
 }
 
@@ -102,7 +91,7 @@ class LanguageTestVersions : ArgumentsProvider, TestVersions() {
             val (gradleVersion, agpVersion) = argument.get()
             arguments += Arguments.of(gradleVersion, agpVersion, JavaProjectSpec())
             arguments += Arguments.of(gradleVersion, agpVersion, KotlinKaptProjectSpec())
-            if (VersionNumber.parse(agpVersion as String).isCompatibleWithKsp()) {
+            if (Version.parse(agpVersion as String).isCompatibleWithKsp()) {
                 arguments += Arguments.of(gradleVersion, agpVersion, KotlinKspProjectSpec())
             }
         }
@@ -118,7 +107,7 @@ class NoSchemaLocationTestVersions : ArgumentsProvider, TestVersions() {
             val (gradleVersion, agpVersion) = argument.get()
             arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationJavaProjectSpec())
             arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationKotlinKaptProjectSpec())
-            if (VersionNumber.parse(agpVersion as String).isCompatibleWithKsp()) {
+            if (Version.parse(agpVersion as String).isCompatibleWithKsp()) {
                 arguments += Arguments.of(gradleVersion, agpVersion, NoSchemaLocationKotlinKspProjectSpec())
             }
         }
