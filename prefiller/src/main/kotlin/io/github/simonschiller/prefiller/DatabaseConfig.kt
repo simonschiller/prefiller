@@ -7,6 +7,7 @@ import com.android.build.gradle.api.AndroidSourceSet
 import com.android.build.gradle.api.BaseVariant
 import com.android.builder.model.AndroidProject.FD_GENERATED
 import com.google.devtools.ksp.gradle.KspExtension
+import io.github.simonschiller.prefiller.internal.util.Version
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.file.RegularFileProperty
@@ -14,7 +15,6 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.property
-import org.gradle.util.VersionNumber
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import java.util.*
 
@@ -47,7 +47,7 @@ class DatabaseConfig internal constructor(val name: String, objects: ObjectFacto
 
             // On Gradle versions earlier than 6.3, we have to resolve the path manually due to a bug
             val schemaDir = schemaLocation.map { parentDir ->
-                if (VersionNumber.parse(project.gradle.gradleVersion) < VersionNumber.parse("6.3")) {
+                if (Version.parse(project.gradle.gradleVersion) < Version.parse("6.3")) {
                     val fileProvider = project.provider { parentDir.asFile.resolve(classname) }
                     project.layout.dir(fileProvider).get()
                 } else {
