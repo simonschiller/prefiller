@@ -5,19 +5,19 @@ object Versions { // See https://mvnrepository.com
     const val MIN_SDK = 21
     const val TARGET_SDK = 30
 
-    const val AGP = "7.0.0-beta03"
+    const val AGP = "7.0.0"
     const val KSP = "1.4.31-1.0.0-alpha06"
 
     const val ANTLR = "4.9.2"
-    const val GSON = "2.8.6"
-    const val SQLITE = "3.34.0"
-    const val JUNIT_5 = "5.7.1"
+    const val GSON = "2.8.7"
+    const val SQLITE = "3.36.0.1"
+    const val JUNIT_5 = "5.7.2"
 
-    const val APPCOMPAT = "1.2.0"
+    const val APPCOMPAT = "1.3.1"
     const val ROOM = "2.3.0"
     const val JUNIT_4 = "4.13.2"
     const val ANDROIDX_TEST = "1.1.2"
-    const val ROBOLECTRIC = "4.5.1"
+    const val ROBOLECTRIC = "4.6.1"
 }
 
 object Dependencies {
