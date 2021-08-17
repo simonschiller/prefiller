@@ -1,12 +1,11 @@
-import org.gradle.kotlin.dsl.embeddedKotlinVersion
-
 object Versions { // See https://mvnrepository.com
     const val COMPILE_SDK = 30
     const val MIN_SDK = 21
     const val TARGET_SDK = 30
 
     const val AGP = "7.0.0"
-    const val KSP = "1.4.31-1.0.0-alpha06"
+    const val KOTLIN = "1.5.21"
+    const val KSP = "1.5.21-1.0.0-beta07"
 
     const val ANTLR = "4.9.2"
     const val GSON = "2.8.7"
@@ -14,7 +13,7 @@ object Versions { // See https://mvnrepository.com
     const val JUNIT_5 = "5.7.2"
 
     const val APPCOMPAT = "1.3.1"
-    const val ROOM = "2.3.0"
+    const val ROOM = "2.4.0-alpha04"
     const val JUNIT_4 = "4.13.2"
     const val ANDROIDX_TEST = "1.1.2"
     const val ROBOLECTRIC = "4.6.1"
@@ -22,11 +21,10 @@ object Versions { // See https://mvnrepository.com
 
 object Dependencies {
     const val AGP = "com.android.tools.build:gradle:${Versions.AGP}"
+    const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
     const val KSP_GRADLE_PLUGIN = "com.google.devtools.ksp:symbol-processing-gradle-plugin:${Versions.KSP}"
 
-    val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:$embeddedKotlinVersion"
-    val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$embeddedKotlinVersion"
-
+    const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.KOTLIN}"
     const val ANTLR = "org.antlr:antlr4:${Versions.ANTLR}"
     const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
     const val SQLITE = "org.xerial:sqlite-jdbc:${Versions.SQLITE}"
