@@ -11,6 +11,7 @@ open class TestVersions : ArgumentsProvider {
 
     // See https://gradle.org/releases
     private val gradleVersions = listOf(
+        "7.2",
         "7.1.1",
         "7.0.2",
         "6.9",
