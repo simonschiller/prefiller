@@ -17,6 +17,7 @@
 package io.github.simonschiller.prefiller
 
 import com.google.common.truth.Truth.assertThat
+import io.github.simonschiller.prefiller.internal.util.Version
 import io.github.simonschiller.prefiller.testutil.LanguageTestVersions
 import io.github.simonschiller.prefiller.testutil.NoSchemaLocationTestVersions
 import io.github.simonschiller.prefiller.testutil.ProjectExtension
@@ -101,9 +102,13 @@ class PrefillerIntegrationTest {
         project.setup(gradleVersion, agpVersion, projectSpec)
         project.run("mergeDebugAssets")
 
-        val mergedAssetsDir = project.moduleDir.resolve("build/intermediates/merged_assets")
-        val databaseFile = mergedAssetsDir.resolve("debug/out/people.db")
-        assertThat(databaseFile.exists()).isTrue()
+        val agpBaseVersion = Version.parse(agpVersion).baseVersion()
+        val mergedAssetsPath = when {
+            agpBaseVersion >= Version.parse("7.1.0") -> "assets/debug/mergeDebugAssets"
+            else -> "merged_assets/debug/out"
+        }
+        val mergedAssetsDir = project.moduleDir.resolve("build/intermediates/$mergedAssetsPath")
+        assertThat(mergedAssetsDir.resolve("people.db").exists()).isTrue()
     }
 
     @ParameterizedTest
