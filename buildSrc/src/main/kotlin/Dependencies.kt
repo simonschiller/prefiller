@@ -1,22 +1,22 @@
 object Versions { // See https://mvnrepository.com
-    const val COMPILE_SDK = 30
+    const val COMPILE_SDK = 31
     const val MIN_SDK = 21
-    const val TARGET_SDK = 30
+    const val TARGET_SDK = 31
 
-    const val AGP = "7.0.0"
-    const val KOTLIN = "1.5.21"
-    const val KSP = "1.5.21-1.0.0-beta07"
+    const val AGP = "7.0.1"
+    const val KOTLIN = "1.6.10"
+    const val KSP = "1.6.10-1.0.2"
 
-    const val ANTLR = "4.9.2"
-    const val GSON = "2.8.7"
-    const val SQLITE = "3.36.0.1"
-    const val JUNIT_5 = "5.7.2"
+    const val ANTLR = "4.9.3"
+    const val GSON = "2.8.9"
+    const val SQLITE = "3.36.0.3"
+    const val JUNIT_5 = "5.8.2"
 
-    const val APPCOMPAT = "1.3.1"
-    const val ROOM = "2.4.0-alpha04"
+    const val APPCOMPAT = "1.4.0"
+    const val ROOM = "2.4.0"
     const val JUNIT_4 = "4.13.2"
-    const val ANDROIDX_TEST = "1.1.2"
-    const val ROBOLECTRIC = "4.6.1"
+    const val ANDROIDX_TEST = "1.1.4-alpha03" // Alpha version required to be compatible with Android 12
+    const val ROBOLECTRIC = "4.7.3"
 }
 
 object Dependencies {

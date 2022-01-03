@@ -18,13 +18,13 @@ jobs:
         include:
           # AGP 7.0.*
           - gradle: 7.3.3
-            agp: 7.0.0
+            agp: 7.0.1
           - gradle: 7.2
-            agp: 7.0.0
+            agp: 7.0.1
           - gradle: 7.1.1
-            agp: 7.0.0
+            agp: 7.0.1
           - gradle: 7.0.2
-            agp: 7.0.0
+            agp: 7.0.1
 
           # AGP 4.2.*
           - gradle: 7.3.3
