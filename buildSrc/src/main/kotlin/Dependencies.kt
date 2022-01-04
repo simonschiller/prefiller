@@ -27,6 +27,7 @@ object Versions { // See https://mvnrepository.com
     const val GSON = "2.8.9"
     const val SQLITE = "3.36.0.3"
     const val JUNIT_5 = "5.8.2"
+    const val TRUTH = "1.1.3"
 
     const val APPCOMPAT = "1.4.0"
     const val ROOM = "2.4.0"
@@ -47,6 +48,7 @@ object Dependencies {
     const val JUNIT_5_ENGINE = "org.junit.jupiter:junit-jupiter-engine:${Versions.JUNIT_5}"
     const val JUNIT_5_API = "org.junit.jupiter:junit-jupiter-api:${Versions.JUNIT_5}"
     const val JUNIT_5_PARAMS = "org.junit.jupiter:junit-jupiter-params:${Versions.JUNIT_5}"
+    const val TRUTH = "com.google.truth:truth:${Versions.TRUTH}"
 
     const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.APPCOMPAT}"
     const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"

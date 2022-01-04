@@ -16,7 +16,7 @@
 
 package io.github.simonschiller.prefiller.internal.parser.sqlite
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.io.TempDir
@@ -37,12 +37,11 @@ class SqliteStatementParserTest {
         """.trimIndent())
 
         val parser = SqliteStatementParser(scriptFile)
-        val statements = listOf(
+        assertThat(parser.parse()).containsExactly(
             "INSERT INTO people(firstname, lastname, age) VALUES (\"Mikael\", \"Burke\", 38)",
             "INSERT INTO people(firstname, lastname, age) VALUES (\"Ayana\", \"Clarke\", 12)",
-            "INSERT INTO people(firstname, lastname, age) VALUES (\"Malachy\", \"Wall\", 24)"
+            "INSERT INTO people(firstname, lastname, age) VALUES (\"Malachy\", \"Wall\", 24)",
         )
-        assertEquals(statements, parser.parse())
     }
 
     @Test

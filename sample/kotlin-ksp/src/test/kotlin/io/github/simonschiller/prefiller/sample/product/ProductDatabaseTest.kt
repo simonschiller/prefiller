@@ -20,9 +20,9 @@ import android.app.Application
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.common.truth.Truth.assertThat
 import io.github.simonschiller.prefiller.sample.order.Order
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -49,20 +49,20 @@ class ProductDatabaseTest {
 
     @Test
     fun `Products are inserted correctly`() {
-        val thermosiphon = Product(1, "Thermosiphon", "Some description for the thermosiphon")
-        val pump = Product(2, "Pump", "Some description for the pump")
-        val heater = Product(3, "Heater", "Some description for the heater")
-
         val products = database.productDao().getAll()
-        assertEquals(listOf(thermosiphon, pump, heater), products)
+        assertThat(products).containsExactly(
+            Product(1, "Thermosiphon", "Some description for the thermosiphon"),
+            Product(2, "Pump", "Some description for the pump"),
+            Product(3, "Heater", "Some description for the heater"),
+        )
     }
 
     @Test
     fun `Orders are inserted correctly`() {
-        val mustard = Order("Mustard")
-        val mayonnaise = Order("Mayonnaise")
-
         val orders = database.orderDao().search("M*")
-        assertEquals(listOf(mustard, mayonnaise), orders)
+        assertThat(orders).containsExactly(
+            Order("Mustard"),
+            Order("Mayonnaise"),
+        )
     }
 }
