@@ -31,7 +31,7 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
-import java.util.*
+import java.util.Locale
 
 class DatabaseConfig internal constructor(val name: String, objects: ObjectFactory) {
     val classname: Property<String> = objects.property(String::class.java)

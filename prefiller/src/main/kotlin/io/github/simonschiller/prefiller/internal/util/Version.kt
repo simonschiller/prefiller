@@ -16,7 +16,7 @@
 
 package io.github.simonschiller.prefiller.internal.util
 
-import java.util.*
+import java.util.Objects
 import kotlin.IllegalArgumentException
 
 /**

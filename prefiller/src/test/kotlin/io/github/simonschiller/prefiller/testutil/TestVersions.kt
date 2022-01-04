@@ -17,7 +17,12 @@
 package io.github.simonschiller.prefiller.testutil
 
 import io.github.simonschiller.prefiller.internal.util.Version
-import io.github.simonschiller.prefiller.testutil.spec.*
+import io.github.simonschiller.prefiller.testutil.spec.JavaProjectSpec
+import io.github.simonschiller.prefiller.testutil.spec.KotlinKaptProjectSpec
+import io.github.simonschiller.prefiller.testutil.spec.KotlinKspProjectSpec
+import io.github.simonschiller.prefiller.testutil.spec.NoSchemaLocationJavaProjectSpec
+import io.github.simonschiller.prefiller.testutil.spec.NoSchemaLocationKotlinKaptProjectSpec
+import io.github.simonschiller.prefiller.testutil.spec.NoSchemaLocationKotlinKspProjectSpec
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider

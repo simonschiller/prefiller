@@ -17,7 +17,7 @@
 package io.github.simonschiller.prefiller.testutil.spec
 
 import java.io.File
-import java.util.*
+import java.util.Properties
 
 abstract class BaseProjectSpec : ProjectSpec {
 
