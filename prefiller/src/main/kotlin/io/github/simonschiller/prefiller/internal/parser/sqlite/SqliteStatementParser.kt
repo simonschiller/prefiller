@@ -19,7 +19,11 @@ package io.github.simonschiller.prefiller.internal.parser.sqlite
 import io.github.simonschiller.prefiller.antlr.SQLiteLexer
 import io.github.simonschiller.prefiller.antlr.SQLiteParser
 import io.github.simonschiller.prefiller.internal.parser.StatementParser
-import org.antlr.v4.runtime.*
+import org.antlr.v4.runtime.BaseErrorListener
+import org.antlr.v4.runtime.CharStreams
+import org.antlr.v4.runtime.CommonTokenStream
+import org.antlr.v4.runtime.RecognitionException
+import org.antlr.v4.runtime.Recognizer
 import org.antlr.v4.runtime.misc.Interval
 import java.io.File
 

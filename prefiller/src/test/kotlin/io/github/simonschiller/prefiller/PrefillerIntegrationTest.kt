@@ -16,12 +16,17 @@
 
 package io.github.simonschiller.prefiller
 
-import io.github.simonschiller.prefiller.testutil.*
+import io.github.simonschiller.prefiller.testutil.LanguageTestVersions
+import io.github.simonschiller.prefiller.testutil.NoSchemaLocationTestVersions
+import io.github.simonschiller.prefiller.testutil.ProjectExtension
+import io.github.simonschiller.prefiller.testutil.TestVersions
+import io.github.simonschiller.prefiller.testutil.outcomeOf
 import io.github.simonschiller.prefiller.testutil.spec.DynamicFeatureProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.NonAndroidProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.ProjectSpec
 import org.gradle.testkit.runner.TaskOutcome
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
