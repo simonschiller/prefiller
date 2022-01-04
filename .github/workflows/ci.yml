@@ -85,15 +85,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v2
+      - name: Setup JDK
+        uses: actions/setup-java@v2
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          distribution: adopt
+          java-version: 11
+          cache: gradle
 
       - name: Publish plugin to local Maven repo
         run: ./gradlew :prefiller:publishToMavenLocal -PexcludeSample --stacktrace
