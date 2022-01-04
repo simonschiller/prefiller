@@ -34,7 +34,6 @@ import org.gradle.kotlin.dsl.property
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import java.util.*
 
-@Suppress("UnstableApiUsage")
 class DatabaseConfig internal constructor(val name: String, objects: ObjectFactory) {
     val classname: Property<String> = objects.property()
     val script: RegularFileProperty = objects.fileProperty()

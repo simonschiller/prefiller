@@ -25,7 +25,6 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.*
 
 @CacheableTask
-@Suppress("UnstableApiUsage")
 open class PrefillerTask : DefaultTask() {
 
     @InputDirectory
