@@ -30,12 +30,11 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
-import org.gradle.kotlin.dsl.property
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import java.util.*
 
 class DatabaseConfig internal constructor(val name: String, objects: ObjectFactory) {
-    val classname: Property<String> = objects.property()
+    val classname: Property<String> = objects.property(String::class.java)
     val script: RegularFileProperty = objects.fileProperty()
 
     internal fun registerTasks(project: Project, variant: BaseVariant) {
@@ -55,10 +54,10 @@ class DatabaseConfig internal constructor(val name: String, objects: ObjectFacto
         val schemaLocation = getSchemaLocation(project, variant)
 
         // Register task for database
-        val task = project.tasks.register(taskName, PrefillerTask::class.java) {
-            description = "Generates and pre-fills ${this@DatabaseConfig.name} database for variant ${variant.name}"
-            scriptFile.set(script)
-            generatedDatabaseFile.set(databaseFile)
+        val task = project.tasks.register(taskName, PrefillerTask::class.java) { prefillerTask ->
+            prefillerTask.description = "Generates and pre-fills ${this@DatabaseConfig.name} database for variant ${variant.name}"
+            prefillerTask.scriptFile.set(script)
+            prefillerTask.generatedDatabaseFile.set(databaseFile)
 
             // On Gradle versions earlier than 6.3, we have to resolve the path manually due to a bug
             val schemaDir = schemaLocation.map { parentDir ->
@@ -69,17 +68,17 @@ class DatabaseConfig internal constructor(val name: String, objects: ObjectFacto
                     parentDir.dir(classname)
                 }
             }
-            schemaDirectory.set(schemaDir)
+            prefillerTask.schemaDirectory.set(schemaDir)
 
             // Room schema has to be generated before the Prefiller task runs
-            dependsOn(variant.javaCompileProvider)
+            prefillerTask.dependsOn(variant.javaCompileProvider)
         }
 
         // Register the output directory as asset directory and hook task into build process
         val sourceSets = variant.sourceSets.filterIsInstance<AndroidSourceSet>()
         sourceSets.last().assets.srcDir(databaseDir) // Last source set is the most specific one
-        project.tasks.named("generate${variantName}Assets").configure {
-            dependsOn(task)
+        project.tasks.named("generate${variantName}Assets").configure { generateAssetsTask ->
+            generateAssetsTask.dependsOn(task)
         }
     }
 

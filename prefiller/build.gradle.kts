@@ -18,9 +18,10 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    `kotlin-dsl`
-    antlr
-    `maven-publish`
+    id("org.jetbrains.kotlin.jvm")
+    id("java-gradle-plugin")
+    id("antlr")
+    id("maven-publish")
     id("com.gradle.plugin-publish") version "0.19.0"
 }
 

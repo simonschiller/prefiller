@@ -16,7 +16,6 @@
 
 package io.github.simonschiller.prefiller.testutil.spec
 
-import org.gradle.kotlin.dsl.support.normaliseLineSeparators
 import java.io.File
 import java.util.*
 
@@ -46,14 +45,19 @@ abstract class BaseProjectSpec : ProjectSpec {
     }
 
     private fun getAndroidHome(): String {
-        System.getenv("ANDROID_HOME")?.let { return it.normaliseLineSeparators() }
+        System.getenv("ANDROID_HOME")?.let { return it.normalizeLineSeparators() }
 
         val localProperties = File(System.getProperty("user.dir")).resolveSibling("local.properties")
         if (localProperties.exists()) {
             val properties = Properties()
             localProperties.inputStream().use { properties.load(it) }
-            properties.getProperty("sdk.dir")?.let { return it.normaliseLineSeparators() }
+            properties.getProperty("sdk.dir")?.let { return it.normalizeLineSeparators() }
         }
         error("Missing 'ANDROID_HOME' environment variable or local.properties with 'sdk.dir'")
+    }
+
+    private fun String.normalizeLineSeparators(): String {
+        val nonUnixLineSeparators = Regex("\r\n|\r")
+        return replace(nonUnixLineSeparators, "\n")
     }
 }
