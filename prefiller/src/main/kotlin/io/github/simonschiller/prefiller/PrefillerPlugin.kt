@@ -31,16 +31,16 @@ class PrefillerPlugin : Plugin<Project> {
         }
 
         // Register tasks when Android plugins are available
-        project.plugins.configureEach {
-            val variants = when (this) {
+        project.plugins.configureEach { plugin ->
+            val variants = when (plugin) {
                 is AppPlugin, is DynamicFeaturePlugin -> project.extensions.getByType(AppExtension::class.java).applicationVariants
                 is LibraryPlugin -> project.extensions.getByType(LibraryExtension::class.java).libraryVariants
                 else -> null
             }
 
             // Register prefiller tasks
-            variants?.configureEach {
-                extension.databaseConfigs.forEach { config -> config.registerTasks(project, this) }
+            variants?.configureEach { variant ->
+                extension.databaseConfigs.forEach { config -> config.registerTasks(project, variant) }
             }
         }
     }
