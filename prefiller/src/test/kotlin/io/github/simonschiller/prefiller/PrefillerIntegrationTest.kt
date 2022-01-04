@@ -16,6 +16,7 @@
 
 package io.github.simonschiller.prefiller
 
+import com.google.common.truth.Truth.assertThat
 import io.github.simonschiller.prefiller.testutil.LanguageTestVersions
 import io.github.simonschiller.prefiller.testutil.NoSchemaLocationTestVersions
 import io.github.simonschiller.prefiller.testutil.ProjectExtension
@@ -25,8 +26,6 @@ import io.github.simonschiller.prefiller.testutil.spec.DynamicFeatureProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.NonAndroidProjectSpec
 import io.github.simonschiller.prefiller.testutil.spec.ProjectSpec
 import org.gradle.testkit.runner.TaskOutcome
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
@@ -42,7 +41,7 @@ class PrefillerIntegrationTest {
     fun `Build fails if plugin is applied to non-Android projects`(gradleVersion: String, agpVersion: String) {
         project.setup(gradleVersion, agpVersion, NonAndroidProjectSpec())
         val result = project.run("clean", expectFailure = true)
-        assertTrue(result.output.contains("Prefiller is only applicable to Android projects"))
+        assertThat(result.output).contains("Prefiller is only applicable to Android projects")
     }
 
     @ParameterizedTest
@@ -55,7 +54,7 @@ class PrefillerIntegrationTest {
         project.moduleBuildGradle.writeText(content)
 
         val result = project.run("prefillPeopleDebugDatabase", expectFailure = true)
-        assertTrue(result.output.contains("'schemaDirectory'"))
+        assertThat(result.output).contains("'schemaDirectory'")
     }
 
     @ParameterizedTest
@@ -65,7 +64,7 @@ class PrefillerIntegrationTest {
         project.scriptFile.appendText("Normal text is not a valid SQL statement")
 
         val result = project.run("prefillPeopleDebugDatabase", expectFailure = true)
-        assertTrue(result.output.contains("Could not parse script"))
+        assertThat(result.output).contains("Could not parse script")
     }
 
     @ParameterizedTest
@@ -73,7 +72,7 @@ class PrefillerIntegrationTest {
     fun `Build fails if schema location is not configured`(gradleVersion: String, agpVersion: String, projectSpec: ProjectSpec) {
         project.setup(gradleVersion, agpVersion, projectSpec)
         val result = project.run("prefillPeopleDebugDatabase", expectFailure = true)
-        assertTrue(result.output.contains("Could not find schema location"))
+        assertThat(result.output).contains("Could not find schema location")
     }
 
     @ParameterizedTest
@@ -83,7 +82,7 @@ class PrefillerIntegrationTest {
         project.run("prefillPeopleDebugDatabase")
 
         val databaseFile = project.moduleDir.resolve("build/generated/prefiller/debug/people.db")
-        assertTrue(databaseFile.exists())
+        assertThat(databaseFile.exists()).isTrue()
     }
 
     @ParameterizedTest
@@ -93,7 +92,7 @@ class PrefillerIntegrationTest {
         project.run("assembleDebug")
 
         val databaseFile = project.moduleDir.resolve("build/generated/prefiller/debug/people.db")
-        assertTrue(databaseFile.exists())
+        assertThat(databaseFile.exists()).isTrue()
     }
 
     @ParameterizedTest
@@ -104,7 +103,7 @@ class PrefillerIntegrationTest {
 
         val mergedAssetsDir = project.moduleDir.resolve("build/intermediates/merged_assets")
         val databaseFile = mergedAssetsDir.resolve("debug/out/people.db")
-        assertTrue(databaseFile.exists())
+        assertThat(databaseFile.exists()).isTrue()
     }
 
     @ParameterizedTest
@@ -113,10 +112,10 @@ class PrefillerIntegrationTest {
         project.setup(gradleVersion, agpVersion, projectSpec)
 
         var result = project.run("prefillPeopleDebugDatabase")
-        assertEquals(TaskOutcome.SUCCESS, result.tasks.outcomeOf("prefillPeopleDebugDatabase"))
+        assertThat(result.tasks.outcomeOf("prefillPeopleDebugDatabase")).isEqualTo(TaskOutcome.SUCCESS)
 
         result = project.run("prefillPeopleDebugDatabase")
-        assertEquals(TaskOutcome.UP_TO_DATE, result.tasks.outcomeOf("prefillPeopleDebugDatabase"))
+        assertThat(result.tasks.outcomeOf("prefillPeopleDebugDatabase")).isEqualTo(TaskOutcome.UP_TO_DATE)
 
         // Trigger change
         project.scriptFile.appendText("""
@@ -124,10 +123,10 @@ class PrefillerIntegrationTest {
         """.trimIndent())
 
         result = project.run("prefillPeopleDebugDatabase")
-        assertEquals(TaskOutcome.SUCCESS, result.tasks.outcomeOf("prefillPeopleDebugDatabase"))
+        assertThat(result.tasks.outcomeOf("prefillPeopleDebugDatabase")).isEqualTo(TaskOutcome.SUCCESS)
 
         result = project.run("prefillPeopleDebugDatabase")
-        assertEquals(TaskOutcome.UP_TO_DATE, result.tasks.outcomeOf("prefillPeopleDebugDatabase"))
+        assertThat(result.tasks.outcomeOf("prefillPeopleDebugDatabase")).isEqualTo(TaskOutcome.UP_TO_DATE)
     }
 
     @ParameterizedTest
@@ -137,6 +136,6 @@ class PrefillerIntegrationTest {
         project.run(":module:prefillPeopleDebugDatabase")
 
         val databaseFile = project.moduleDir.resolve("build/generated/prefiller/debug/people.db")
-        assertTrue(databaseFile.exists())
+        assertThat(databaseFile.exists()).isTrue()
     }
 }

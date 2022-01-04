@@ -16,7 +16,7 @@
 
 package io.github.simonschiller.prefiller.internal
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.io.TempDir
@@ -35,7 +35,7 @@ class RoomSchemaLocatorTest {
         tempDir.resolve("v3.json").createNewFile()
         tempDir.resolve("3.txt").createNewFile()
 
-        assertEquals("2.JSON", locator.findLatestRoomSchema(tempDir).name)
+        assertThat(locator.findLatestRoomSchema(tempDir).name).isEqualTo("2.JSON")
     }
 
     @Test

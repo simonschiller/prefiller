@@ -16,6 +16,8 @@
 
 package io.github.simonschiller.prefiller.sample.product;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import android.content.Context;
 
 import androidx.room.Room;
@@ -28,12 +30,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
-import java.util.Arrays;
 import java.util.List;
 
 import io.github.simonschiller.prefiller.sample.order.Order;
-
-import static org.junit.Assert.assertEquals;
 
 @Config(sdk = 28)
 @RunWith(AndroidJUnit4.class)
@@ -56,20 +55,20 @@ public class ProductDatabaseTest {
 
     @Test
     public void productsAreInsertedCorrectly() {
-        Product thermosiphon = new Product(1, "Thermosiphon", "Some description for the thermosiphon");
-        Product pump = new Product(2, "Pump", "Some description for the pump");
-        Product heater = new Product(3, "Heater", "Some description for the heater");
-
         List<Product> products = database.productDao().getAll();
-        assertEquals(Arrays.asList(thermosiphon, pump, heater), products);
+        assertThat(products).containsExactly(
+                new Product(1, "Thermosiphon", "Some description for the thermosiphon"),
+                new Product(2, "Pump", "Some description for the pump"),
+                new Product(3, "Heater", "Some description for the heater")
+        );
     }
 
     @Test
     public void ordersAreInsertedCorrectly() {
-        Order mustard = new Order("Mustard");
-        Order mayonnaise = new Order("Mayonnaise");
-
         List<Order> orders = database.orderDao().search("M*");
-        assertEquals(Arrays.asList(mustard, mayonnaise), orders);
+        assertThat(orders).containsExactly(
+                new Order("Mustard"),
+                new Order("Mayonnaise")
+        );
     }
 }

@@ -16,9 +16,7 @@
 
 package io.github.simonschiller.prefiller.internal
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.io.TempDir
@@ -45,13 +43,13 @@ class DatabasePopulatorTest {
 
         runInDatabase(database, "SELECT value FROM numbers") { statement ->
             statement.executeQuery().use { result ->
-                assertTrue(result.next())
-                assertEquals(1, result.getInt("value"))
+                assertThat(result.next()).isTrue()
+                assertThat(result.getInt("value")).isEqualTo(1)
 
-                assertTrue(result.next())
-                assertEquals(2, result.getInt("value"))
+                assertThat(result.next()).isTrue()
+                assertThat(result.getInt("value")).isEqualTo(2)
 
-                assertFalse(result.next())
+                assertThat(result.next()).isFalse()
             }
 
         }
@@ -72,13 +70,13 @@ class DatabasePopulatorTest {
 
         runInDatabase(database, "SELECT value FROM numbers") { statement ->
             statement.executeQuery().use { result ->
-                assertTrue(result.next())
-                assertEquals(1, result.getInt("value"))
+                assertThat(result.next()).isTrue()
+                assertThat(result.getInt("value")).isEqualTo(1)
 
-                assertTrue(result.next())
-                assertEquals(2, result.getInt("value"))
+                assertThat(result.next()).isTrue()
+                assertThat(result.getInt("value")).isEqualTo(2)
 
-                assertFalse(result.next())
+                assertThat(result.next()).isFalse()
             }
         }
     }
@@ -97,13 +95,13 @@ class DatabasePopulatorTest {
 
         runInDatabase(database, "SELECT value FROM numbers") { statement ->
             statement.executeQuery().use { result ->
-                assertTrue(result.next())
-                assertEquals(1, result.getInt("value"))
+                assertThat(result.next()).isTrue()
+                assertThat(result.getInt("value")).isEqualTo(1)
 
-                assertTrue(result.next())
-                assertEquals(2, result.getInt("value"))
+                assertThat(result.next()).isTrue()
+                assertThat(result.getInt("value")).isEqualTo(2)
 
-                assertFalse(result.next())
+                assertThat(result.next()).isFalse()
             }
         }
     }

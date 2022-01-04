@@ -16,6 +16,8 @@
 
 package io.github.simonschiller.prefiller.sample.customer;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import android.content.Context;
 
 import androidx.room.Room;
@@ -28,12 +30,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
-import java.util.Arrays;
 import java.util.List;
 
 import io.github.simonschiller.prefiller.sample.creditcard.CreditCard;
-
-import static org.junit.Assert.assertEquals;
 
 @Config(sdk = 28)
 @RunWith(AndroidJUnit4.class)
@@ -56,29 +55,29 @@ public class CustomerDatabaseTest {
 
     @Test
     public void customersAreInsertedCorrectly() {
-        Customer mikael = new Customer(1, "Mikael Burke", 38);
-        Customer ayana = new Customer(2, "Ayana Clarke", 12);
-        Customer malachy = new Customer(3, "Malachy Wall", 24);
-
         List<Customer> customers = database.customerDao().getAll();
-        assertEquals(Arrays.asList(mikael, ayana, malachy), customers);
+        assertThat(customers).containsExactly(
+                new Customer(1, "Mikael Burke", 38),
+                new Customer(2, "Ayana Clarke", 12),
+                new Customer(3, "Malachy Wall", 24)
+        );
     }
 
     @Test
     public void creditCardsAreInsertedCorrectly() {
-        CreditCard mikaelsCreditCard = new CreditCard(1, 1, "4098 6178 7375 6825");
-        CreditCard malachysCreditCard = new CreditCard(2, 3, "4003 8097 1909 0394");
-
         List<CreditCard> creditCards = database.creditCardDao().getAll();
-        assertEquals(Arrays.asList(mikaelsCreditCard, malachysCreditCard), creditCards);
+        assertThat(creditCards).containsExactly(
+                new CreditCard(1, 1, "4098 6178 7375 6825"),
+                new CreditCard(2, 3, "4003 8097 1909 0394")
+        );
     }
 
     @Test
     public void viewsAreCreatedCorrectly() {
-        AdultCustomer mikael = new AdultCustomer(1, "Mikael Burke", 38);
-        AdultCustomer malachy = new AdultCustomer(3, "Malachy Wall", 24);
-
         List<AdultCustomer> adults = database.customerDao().getAdults();
-        assertEquals(Arrays.asList(mikael, malachy), adults);
+        assertThat(adults).containsExactly(
+                new AdultCustomer(1, "Mikael Burke", 38),
+                new AdultCustomer(3, "Malachy Wall", 24)
+        );
     }
 }

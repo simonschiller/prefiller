@@ -52,6 +52,7 @@ dependencies {
     kapt(Dependencies.ROOM_COMPILER)
 
     testImplementation(Dependencies.JUNIT_4)
+    testImplementation(Dependencies.TRUTH)
     testImplementation(Dependencies.ANDROIDX_TEST)
     testImplementation(Dependencies.ROBOLECTRIC)
 }

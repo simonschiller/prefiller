@@ -16,10 +16,10 @@
 
 package io.github.simonschiller.prefiller.internal.parser
 
+import com.google.common.truth.Truth.assertThat
 import com.google.gson.JsonParser
 import io.github.simonschiller.prefiller.internal.parser.room.RoomSchemaStatementParserV1
 import io.github.simonschiller.prefiller.internal.parser.sqlite.SqliteStatementParser
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.io.TempDir
@@ -37,7 +37,7 @@ class StatementParserFactoryTest {
         file.createNewFile()
 
         val parser = parserFactory.createParser(file)
-        assertEquals(SqliteStatementParser::class, parser::class)
+        assertThat(parser).isInstanceOf(SqliteStatementParser::class.java)
     }
 
     @Test
@@ -50,7 +50,7 @@ class StatementParserFactoryTest {
             val file = File(ClassLoader.getSystemResource(resourcePath).file)
 
             val parser = parserFactory.createParser(file)
-            assertEquals(parserClass, parser::class)
+            assertThat(parser).isInstanceOf(parserClass.java)
         }
     }
 
