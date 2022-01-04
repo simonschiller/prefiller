@@ -17,7 +17,6 @@
 package io.github.simonschiller.prefiller.internal.parser
 
 import com.google.common.truth.Truth.assertThat
-import com.google.gson.JsonParser
 import io.github.simonschiller.prefiller.internal.parser.room.RoomSchemaStatementParserV1
 import io.github.simonschiller.prefiller.internal.parser.sqlite.SqliteStatementParser
 import org.junit.jupiter.api.Test
@@ -58,11 +57,10 @@ class StatementParserFactoryTest {
     fun `Exception is thrown for unknown Room schema version`() {
         val resource = ClassLoader.getSystemResource("schemas/v1.json")
         val file = tempDir.resolve("schema.json")
-        file.writeText(resource.readText())
 
-        val json = JsonParser.parseString(file.readText()).asJsonObject
-        json.addProperty("formatVersion", 0)
-        file.writeText(json.toString())
+        val original = resource.readText()
+        val invalid = original.replace("\"formatVersion\": 1", "\"formatVersion\": 0")
+        file.writeText(invalid)
 
         assertThrows<IllegalArgumentException> { parserFactory.createParser(file) }
     }

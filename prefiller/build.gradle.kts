@@ -36,7 +36,6 @@ repositories {
 dependencies {
     antlr(Dependencies.ANTLR)
 
-    implementation(Dependencies.GSON)
     implementation(Dependencies.SQLITE)
 
     compileOnly(Dependencies.AGP)

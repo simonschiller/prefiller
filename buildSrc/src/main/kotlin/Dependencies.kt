@@ -24,7 +24,6 @@ object Versions { // See https://mvnrepository.com
     const val KSP = "1.6.10-1.0.2"
 
     const val ANTLR = "4.9.3"
-    const val GSON = "2.8.9"
     const val SQLITE = "3.36.0.3"
     const val JUNIT_5 = "5.8.2"
     const val TRUTH = "1.1.3"
@@ -43,7 +42,6 @@ object Dependencies {
 
     const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.KOTLIN}"
     const val ANTLR = "org.antlr:antlr4:${Versions.ANTLR}"
-    const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
     const val SQLITE = "org.xerial:sqlite-jdbc:${Versions.SQLITE}"
     const val JUNIT_5_ENGINE = "org.junit.jupiter:junit-jupiter-engine:${Versions.JUNIT_5}"
     const val JUNIT_5_API = "org.junit.jupiter:junit-jupiter-api:${Versions.JUNIT_5}"

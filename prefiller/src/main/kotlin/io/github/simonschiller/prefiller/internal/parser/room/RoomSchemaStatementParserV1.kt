@@ -16,33 +16,33 @@
 
 package io.github.simonschiller.prefiller.internal.parser.room
 
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import io.github.simonschiller.prefiller.internal.parser.StatementParser
+import javax.json.JsonObject
+import javax.json.JsonString
 
 internal class RoomSchemaStatementParserV1(private val json: JsonObject) : StatementParser {
 
     override fun parse(): List<String> = try {
-        val root = json.getAsJsonObject("database")
+        val root = json.getJsonObject("database")
         val statements = mutableListOf<String>()
 
         // Create and fill master table
-        val setupQueries = root.getAsJsonArray("setupQueries")
-        setupQueries.map(JsonElement::getAsString).forEach { setupQuery ->
-            statements += setupQuery
+        val setupQueries = root.getJsonArray("setupQueries")
+        setupQueries.filterIsInstance<JsonString>().forEach { setupQuery ->
+            statements += setupQuery.string
         }
 
         // Create entity tables
-        val entities = root.getAsJsonArray("entities")
-        entities.forEach { entity ->
-            val tableName = entity.asJsonObject.get("tableName").asString
-            val createTable = entity.asJsonObject.get("createSql").asString
+        val entities = root.getJsonArray("entities")
+        entities.filterIsInstance<JsonObject>().forEach { entity ->
+            val tableName = entity.getString("tableName")
+            val createTable = entity.getString("createSql")
             statements += createTable.replace("\${TABLE_NAME}", tableName)
 
             // Create indices for table
-            val indices = entity.asJsonObject.getAsJsonArray("indices")
-            indices.forEach { index ->
-                val createIndex = index.asJsonObject.get("createSql").asString
+            val indices = entity.getJsonArray("indices")
+            indices.filterIsInstance<JsonObject>().forEach { index ->
+                val createIndex = index.getString("createSql")
                 statements += createIndex.replace("\${TABLE_NAME}", tableName)
             }
         }

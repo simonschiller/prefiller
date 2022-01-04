@@ -16,11 +16,10 @@
 
 package io.github.simonschiller.prefiller.internal.parser
 
-import com.google.gson.JsonParseException
-import com.google.gson.JsonParser
 import io.github.simonschiller.prefiller.internal.parser.room.RoomSchemaStatementParserV1
 import io.github.simonschiller.prefiller.internal.parser.sqlite.SqliteStatementParser
 import java.io.File
+import javax.json.Json
 
 internal class StatementParserFactory {
 
@@ -32,14 +31,14 @@ internal class StatementParserFactory {
 
     private fun createRoomSchemaParser(target: File): StatementParser {
         val json = try {
-            target.reader().use(JsonParser::parseReader).asJsonObject
-        } catch (exception: JsonParseException) {
+            target.reader().use { reader -> Json.createReader(reader).readObject() }
+        } catch (exception: Exception) {
             throw IllegalArgumentException("Could not parse JSON file")
         }
 
         // Parse the version of the Room schema
         val version = try {
-            json.get("formatVersion").asInt
+            json.getInt("formatVersion")
         } catch (exception: Exception) {
             throw IllegalArgumentException("Could not read format version, make sure the Room schema is valid")
         }

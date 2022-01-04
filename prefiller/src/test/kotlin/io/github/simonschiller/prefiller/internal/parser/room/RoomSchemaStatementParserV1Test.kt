@@ -17,11 +17,11 @@
 package io.github.simonschiller.prefiller.internal.parser.room
 
 import com.google.common.truth.Truth.assertThat
-import com.google.gson.JsonParser
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
+import javax.json.Json
 
 class RoomSchemaStatementParserV1Test {
 
@@ -34,7 +34,7 @@ class RoomSchemaStatementParserV1Test {
         val schemaFile = tempDir.resolve("schema.json")
         schemaFile.writeText(resource.readText())
 
-        val json = JsonParser.parseString(schemaFile.readText()).asJsonObject
+        val json = Json.createReader(schemaFile.reader()).readObject()
         val parser = RoomSchemaStatementParserV1(json)
 
         assertThat(parser.parse()).containsExactly(
@@ -50,7 +50,7 @@ class RoomSchemaStatementParserV1Test {
 
     @Test
     fun `Exception is thrown for unknown JSON object`() {
-        val json = JsonParser.parseString("""{ "foo": "bar" }""").asJsonObject
+        val json = Json.createObjectBuilder().add("foo", "bar").build()
         val parser = RoomSchemaStatementParserV1(json)
         assertThrows<IllegalArgumentException> { parser.parse() }
     }
