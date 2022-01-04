@@ -55,7 +55,6 @@ sourceSets {
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.ExperimentalStdlibApi"
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
     dependsOn(tasks.named("generateGrammarSource")) // Make sure the ANTLR grammar gets compiled
