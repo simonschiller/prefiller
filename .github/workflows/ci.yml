@@ -17,12 +17,20 @@ jobs:
       matrix:
         include:
           # AGP 7.1.*
+          - gradle: 7.5.1
+            agp: 7.1.0
+          - gradle: 7.4.2
+            agp: 7.1.0
           - gradle: 7.3.3
             agp: 7.1.0
           - gradle: 7.2
             agp: 7.1.0
 
           # AGP 7.0.*
+          - gradle: 7.5.1
+            agp: 7.0.4
+          - gradle: 7.4.2
+            agp: 7.0.4
           - gradle: 7.3.3
             agp: 7.0.4
           - gradle: 7.2
@@ -33,6 +41,10 @@ jobs:
             agp: 7.0.4
 
           # AGP 4.2.*
+          - gradle: 7.5.1
+            agp: 4.2.2
+          - gradle: 7.4.2
+            agp: 4.2.2
           - gradle: 7.3.3
             agp: 4.2.2
           - gradle: 7.2
@@ -49,6 +61,10 @@ jobs:
             agp: 4.2.2
 
           # AGP 4.1.*
+          - gradle: 7.5.1
+            agp: 4.1.2
+          - gradle: 7.4.2
+            agp: 4.1.2
           - gradle: 7.3.3
             agp: 4.1.2
           - gradle: 7.2
