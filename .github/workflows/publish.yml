@@ -21,4 +21,4 @@ jobs:
           java-version: 11
 
       - name: Publish plugin
-        run: ./gradlew :prefiller:publishPlugins --stacktrace
+        run: ./gradlew :prefiller:publishPlugins -PexcludeSample --stacktrace
