@@ -51,7 +51,7 @@ You can also find instructions on how to use the Prefiller plugin on the [Gradle
 
 #### Write your setup script
 
-Next you need to create a `.sql` script with all your setup statements. Simply place this file somewhere in your project. Prefiller will use this file to populate the database, so make sure the statements are valid and match the database schema.
+Next you need to create a `.sql` script with all your setup statements. Simply place this file somewhere in your project. Prefiller will use this file to populate the database, so make sure the statements are valid and match the database schema. You can also supply multiple `.sql` files if you wish.
 
 ```sql
 -- src/main/sql/setup.sql
@@ -69,7 +69,7 @@ Lastly, you have to configure the Prefiller plugin in your `build.gradle` by lin
 prefiller {
     database("people") {
         classname.set("com.example.PeopleDatabase")
-        script.set(layout.projectDirectory.file("src/main/sql/setup.sql"))
+        scripts.from(file("src/main/sql/setup.sql"))
     }
 }
 ```

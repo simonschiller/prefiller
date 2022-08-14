@@ -68,7 +68,7 @@ open class DynamicFeatureProjectSpec : BaseProjectSpec() {
         prefiller {
             database("people") {
                 classname.set("com.test.PeopleDatabase")
-                script.set(layout.projectDirectory.file("setup.sql"))
+                scripts.from(file("setup.sql"))
             }
         }
             
