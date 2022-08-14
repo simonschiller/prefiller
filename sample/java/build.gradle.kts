@@ -57,10 +57,10 @@ dependencies {
 prefiller {
     database("customers") {
         classname.set("io.github.simonschiller.prefiller.sample.customer.CustomerDatabase")
-        script.set(layout.projectDirectory.file("../sql/customers.sql"))
+        scripts.from(file("../sql/customers.sql"))
     }
     database("products") {
         classname.set("io.github.simonschiller.prefiller.sample.product.ProductDatabase")
-        script.set(layout.projectDirectory.file("../sql/products.sql"))
+        scripts.from(file("../sql/orders.sql"), file("../sql/products.sql"))
     }
 }

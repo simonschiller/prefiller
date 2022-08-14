@@ -20,11 +20,12 @@ import io.github.simonschiller.prefiller.internal.DatabasePopulator
 import io.github.simonschiller.prefiller.internal.RoomSchemaLocator
 import io.github.simonschiller.prefiller.internal.parser.StatementParserFactory
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.InputDirectory
-import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
@@ -37,9 +38,9 @@ open class PrefillerTask : DefaultTask() {
     @PathSensitive(PathSensitivity.RELATIVE)
     val schemaDirectory: DirectoryProperty = project.objects.directoryProperty()
 
-    @InputFile
+    @InputFiles
     @PathSensitive(PathSensitivity.RELATIVE)
-    val scriptFile: RegularFileProperty = project.objects.fileProperty()
+    val scriptFiles: ConfigurableFileCollection = project.objects.fileCollection()
 
     @OutputFile
     val generatedDatabaseFile: RegularFileProperty = project.objects.fileProperty()
@@ -54,7 +55,7 @@ open class PrefillerTask : DefaultTask() {
         // Parse the statements
         val parserFactory = StatementParserFactory()
         val setupStatements = parserFactory.createParser(schemaFile).parse()
-        val scriptStatements = parserFactory.createParser(scriptFile.get().asFile).parse()
+        val scriptStatements = scriptFiles.flatMap { parserFactory.createParser(it).parse() }
 
         // Clear the old and populate the new database
         val databaseFile = generatedDatabaseFile.get().asFile
