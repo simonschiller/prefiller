@@ -32,6 +32,8 @@ open class TestVersions : ArgumentsProvider {
 
     // See https://gradle.org/releases
     private val gradleVersions = listOf(
+        "7.5.1",
+        "7.4.2",
         "7.3.3",
         "7.2",
         "7.1.1",
@@ -49,7 +51,8 @@ open class TestVersions : ArgumentsProvider {
 
     // See https://developer.android.com/studio/releases/gradle-plugin
     private val agpVersions = listOf(
-        "7.1.0",
+        "7.2.2",
+        "7.1.3",
         "7.0.4",
         "4.2.2",
         "4.1.2",
@@ -99,6 +102,7 @@ open class TestVersions : ArgumentsProvider {
 
     // Checks if a AGP version (receiver) is compatible with a certain version of Gradle
     private infix fun Version.isCompatibleWith(gradleVersion: Version) = when {
+        this >= Version.parse("7.2.0") -> gradleVersion >= Version.parse("7.3.3")
         this >= Version.parse("7.1.0") -> gradleVersion >= Version.parse("7.2")
         this >= Version.parse("7.0.0") -> gradleVersion >= Version.parse("7.0")
         this >= Version.parse("4.2.0") -> gradleVersion >= Version.parse("6.7.1")

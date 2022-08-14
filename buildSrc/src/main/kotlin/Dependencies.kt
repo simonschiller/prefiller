@@ -14,33 +14,39 @@
  * limitations under the License.
  */
 
-object Versions { // See https://mvnrepository.com
-    const val COMPILE_SDK = 31
+object Versions {
+    const val COMPILE_SDK = 32
     const val MIN_SDK = 21
-    const val TARGET_SDK = 31
+    const val TARGET_SDK = 32
 
-    const val AGP = "7.1.0"
-    const val KOTLIN = "1.6.10"
-    const val KSP = "1.6.10-1.0.2"
+    const val AGP = "7.2.2" // https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google
+    const val KOTLIN = "1.6.21" // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib
+    const val KSP = "1.6.21-1.0.6" // https://mvnrepository.com/artifact/com.google.devtools.ksp/com.google.devtools.ksp.gradle.plugin
+    const val PUBLISH_GRADLE_PLUGIN = "0.21.0" // https://mvnrepository.com/artifact/com.gradle.publish/plugin-publish-plugin?repo=gradle-plugins
 
-    const val ANTLR = "4.9.3"
-    const val SQLITE = "3.36.0.3"
-    const val JUNIT_5 = "5.8.2"
-    const val TRUTH = "1.1.3"
+    const val SDK_COMMON = "30.2.2" // https://mvnrepository.com/artifact/com.android.tools/sdk-common?repo=google
+    const val ANTLR = "4.10.1" // https://mvnrepository.com/artifact/org.antlr/antlr4
+    const val SQLITE = "3.39.2.0" // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+    const val JUNIT_5 = "5.9.0" // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+    const val TRUTH = "1.1.3" // https://mvnrepository.com/artifact/com.google.truth/truth
 
-    const val APPCOMPAT = "1.4.0"
-    const val ROOM = "2.4.0"
-    const val JUNIT_4 = "4.13.2"
-    const val ANDROIDX_TEST = "1.1.4-alpha03" // Alpha version required to be compatible with Android 12
-    const val ROBOLECTRIC = "4.7.3"
+    const val APPCOMPAT = "1.4.2" // https://mvnrepository.com/artifact/androidx.appcompat/appcompat
+    const val ROOM = "2.4.3" // https://mvnrepository.com/artifact/androidx.room/room-runtime
+    const val JUNIT_4 = "4.13.2" // https://mvnrepository.com/artifact/junit/junit
+    const val ROBOLECTRIC = "4.8.1" // https://mvnrepository.com/artifact/org.robolectric/robolectric
+
+    // Alpha version required to be compatible with Android 12
+    const val ANDROIDX_TEST = "1.1.4-alpha07" // https://mvnrepository.com/artifact/androidx.test.ext/junit
 }
 
 object Dependencies {
     const val AGP = "com.android.tools.build:gradle:${Versions.AGP}"
     const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
     const val KSP_GRADLE_PLUGIN = "com.google.devtools.ksp:symbol-processing-gradle-plugin:${Versions.KSP}"
+    const val PUBLISH_GRADLE_PLUGIN = "com.gradle.publish:plugin-publish-plugin:${Versions.PUBLISH_GRADLE_PLUGIN}"
 
-    const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.KOTLIN}"
+    const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
+    const val SDK_COMMON = "com.android.tools:common:${Versions.SDK_COMMON}"
     const val ANTLR = "org.antlr:antlr4:${Versions.ANTLR}"
     const val SQLITE = "org.xerial:sqlite-jdbc:${Versions.SQLITE}"
     const val JUNIT_5_ENGINE = "org.junit.jupiter:junit-jupiter-engine:${Versions.JUNIT_5}"

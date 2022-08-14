@@ -18,10 +18,10 @@
 
 package io.github.simonschiller.prefiller
 
+import com.android.SdkConstants.FD_GENERATED
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.api.AndroidSourceSet
 import com.android.build.gradle.api.BaseVariant
-import com.android.builder.model.AndroidProject.FD_GENERATED
 import com.google.devtools.ksp.gradle.KspExtension
 import io.github.simonschiller.prefiller.internal.util.Version
 import org.gradle.api.Project
