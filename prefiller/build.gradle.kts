@@ -38,6 +38,7 @@ repositories {
 dependencies {
     antlr(Dependencies.ANTLR)
 
+    implementation(Dependencies.ANTLR_RUNTIME)
     implementation(Dependencies.SQLITE)
     implementation(Dependencies.JSONP)
 
@@ -50,6 +51,13 @@ dependencies {
     testImplementation(Dependencies.JUNIT_5_API)
     testImplementation(Dependencies.JUNIT_5_PARAMS)
     testImplementation(Dependencies.TRUTH)
+}
+
+configurations {
+    // Exclude antlr4 from transitive dependencies (https://github.com/gradle/gradle/issues/820)
+    api {
+        setExtendsFrom(extendsFrom.filterNot { it == antlr.get() })
+    }
 }
 
 sourceSets {

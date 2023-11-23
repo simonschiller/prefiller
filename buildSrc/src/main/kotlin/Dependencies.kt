@@ -49,6 +49,7 @@ object Dependencies {
     const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
     const val SDK_COMMON = "com.android.tools:common:${Versions.SDK_COMMON}"
     const val ANTLR = "org.antlr:antlr4:${Versions.ANTLR}"
+    const val ANTLR_RUNTIME = "org.antlr:antlr4-runtime:${Versions.ANTLR}"
     const val SQLITE = "org.xerial:sqlite-jdbc:${Versions.SQLITE}"
     const val JSONP = "org.glassfish:jakarta.json:${Versions.JSONP}"
     const val JUNIT_5_ENGINE = "org.junit.jupiter:junit-jupiter-engine:${Versions.JUNIT_5}"
