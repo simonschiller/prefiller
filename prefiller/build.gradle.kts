@@ -15,7 +15,9 @@
  */
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
@@ -37,6 +39,7 @@ dependencies {
     antlr(Dependencies.ANTLR)
 
     implementation(Dependencies.SQLITE)
+    implementation(Dependencies.JSONP)
 
     compileOnly(Dependencies.AGP)
     compileOnly(Dependencies.SDK_COMMON)
@@ -50,25 +53,30 @@ dependencies {
 }
 
 sourceSets {
-    test.configure {
-        java.srcDirs("$rootDir/buildSrc/src/main/kotlin") // Make versions available in tests
+    main {
+        java.srcDir(tasks.named("generateGrammarSource").map { files() })
+    }
+
+    test {
+        java.srcDirs(
+            tasks.named("generateTestGrammarSource").map { files() },
+            "$rootDir/buildSrc/src/main/kotlin", // Make versions available in tests
+        )
     }
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+tasks.withType<KotlinJvmCompile>().configureEach {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
+        // https://docs.gradle.org/current/userguide/compatibility.html#kotlin
+        apiVersion = KotlinVersion.KOTLIN_1_6
+        languageVersion = KotlinVersion.KOTLIN_1_6
     }
-    dependsOn(tasks.named("generateGrammarSource")) // Make sure the ANTLR grammar gets compiled
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    sourceCompatibility = JavaVersion.VERSION_1_8.toString()
-    targetCompatibility = JavaVersion.VERSION_1_8.toString()
-}
-
-tasks.withType<Jar>().configureEach {
-    dependsOn(tasks.named("generateGrammarSource")) // Make sure the ANTLR grammar gets compiled
+    sourceCompatibility = JavaVersion.VERSION_11.toString()
+    targetCompatibility = JavaVersion.VERSION_11.toString()
 }
 
 tasks.withType<Test>().configureEach {
@@ -76,6 +84,12 @@ tasks.withType<Test>().configureEach {
     dependsOn("publishToMavenLocal")
 
     jvmArgs("-XX:MaxMetaspaceSize=2g")
+
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = providers.environmentVariable("TEST_JDK_VERSION")
+            .map { JavaLanguageVersion.of(it.toInt())  }
+            .orElse(JavaLanguageVersion.of(17))
+    }
 
     testLogging {
         events("passed", "skipped", "failed")
@@ -88,28 +102,15 @@ tasks.withType<AntlrTask>().configureEach {
 }
 
 gradlePlugin {
+    website.set("https://github.com/simonschiller/prefiller")
+    vcsUrl.set("https://github.com/simonschiller/prefiller")
     plugins {
         create("prefiller") {
             id = "io.github.simonschiller.prefiller"
             implementationClass = "io.github.simonschiller.prefiller.PrefillerPlugin"
-        }
-    }
-}
-
-pluginBundle {
-    website = "https://github.com/simonschiller/prefiller"
-    vcsUrl = "https://github.com/simonschiller/prefiller"
-    description = "Prefiller is a Gradle plugin that generates pre-filled Room databases at compile time."
-    tags = listOf("android", "room")
-
-    mavenCoordinates {
-        groupId = project.group.toString()
-        artifactId = "prefiller"
-    }
-
-    (plugins) {
-        "prefiller" {
             displayName = "Prefiller"
+            description = "Prefiller is a Gradle plugin that generates pre-filled Room databases at compile time."
+            tags = listOf("android", "room")
         }
     }
 }

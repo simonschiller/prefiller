@@ -21,6 +21,7 @@ import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.DynamicFeaturePlugin
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
+import io.github.simonschiller.prefiller.internal.PrefillerTaskRegisterer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -44,7 +45,9 @@ class PrefillerPlugin : Plugin<Project> {
 
             // Register prefiller tasks
             variants?.configureEach { variant ->
-                extension.databaseConfigs.forEach { config -> config.registerTasks(project, variant) }
+                val registerer = PrefillerTaskRegisterer(project, variant)
+                registerer.setupSourceSets()
+                extension.databaseConfigs.forEach(registerer::registerTasks)
             }
         }
     }

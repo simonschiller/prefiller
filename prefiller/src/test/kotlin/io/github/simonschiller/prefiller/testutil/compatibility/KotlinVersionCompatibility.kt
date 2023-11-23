@@ -23,6 +23,7 @@ internal object KotlinVersionCompatibility {
     val KOTLIN_1_9_0 = Version(1, 9, 0)
     val KOTLIN_1_9_10 = Version(1, 9, 10)
     val KOTLIN_1_9_20 = Version(1, 9, 20)
+    val KOTLIN_1_9_21 = Version(1, 9, 21)
 
     fun hasCompatibleKotlinVersion(
         agpVersion: Version,
@@ -39,7 +40,7 @@ internal object KotlinVersionCompatibility {
         }
 
         gradleVersion >= GRADLE_6_8_3 -> {
-            KOTLIN_1_9_20
+            KOTLIN_1_9_21
         }
 
         gradleVersion >= GRADLE_6_7_1 -> {

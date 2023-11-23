@@ -17,8 +17,8 @@
 package io.github.simonschiller.prefiller.internal.parser.room
 
 import io.github.simonschiller.prefiller.internal.parser.StatementParser
-import javax.json.JsonObject
-import javax.json.JsonString
+import jakarta.json.JsonObject
+import jakarta.json.JsonString
 
 internal class RoomSchemaStatementParserV1(private val json: JsonObject) : StatementParser {
 

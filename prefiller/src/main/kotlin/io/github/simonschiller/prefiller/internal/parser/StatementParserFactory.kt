@@ -19,7 +19,7 @@ package io.github.simonschiller.prefiller.internal.parser
 import io.github.simonschiller.prefiller.internal.parser.room.RoomSchemaStatementParserV1
 import io.github.simonschiller.prefiller.internal.parser.sqlite.SqliteStatementParser
 import java.io.File
-import javax.json.Json
+import jakarta.json.Json
 
 internal class StatementParserFactory {
 

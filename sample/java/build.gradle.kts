@@ -21,10 +21,10 @@ plugins {
 
 android {
     compileSdk = Versions.COMPILE_SDK
+    namespace = "io.github.simonschiller.prefiller.sample"
 
     defaultConfig {
         minSdk = Versions.MIN_SDK
-        targetSdk = Versions.TARGET_SDK
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -38,8 +38,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
