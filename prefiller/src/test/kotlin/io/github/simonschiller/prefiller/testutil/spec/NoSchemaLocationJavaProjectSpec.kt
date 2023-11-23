@@ -16,7 +16,9 @@
 
 package io.github.simonschiller.prefiller.testutil.spec
 
-open class NoSchemaLocationJavaProjectSpec : JavaProjectSpec() {
+open class NoSchemaLocationJavaProjectSpec(
+    versionCatalog: VersionCatalog,
+) : JavaProjectSpec(versionCatalog) {
 
     override fun getModuleBuildGradleContent() = """
         apply plugin: "com.android.application"
@@ -27,20 +29,22 @@ open class NoSchemaLocationJavaProjectSpec : JavaProjectSpec() {
             mavenCentral()
         }
         android {
-            compileSdkVersion(${Versions.COMPILE_SDK})
+            compileSdkVersion(${versionCatalog.compileSdk})
+            ${getNamespaceContent()}
         	defaultConfig {
-            	minSdkVersion(${Versions.MIN_SDK})
-            	targetSdkVersion(${Versions.TARGET_SDK})
+            	minSdkVersion(${versionCatalog.minSdk})
+            	targetSdkVersion(${versionCatalog.targetSdk})
             }
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
+                targetCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
             }
         }    
         dependencies {
-            implementation("${Dependencies.ROOM_RUNTIME}")
-            annotationProcessor("${Dependencies.ROOM_COMPILER}")
-        }    
+            implementation("${versionCatalog.androidxCoreRuntime}")
+            implementation("${versionCatalog.roomRuntime}")
+            annotationProcessor("${versionCatalog.roomCompiler}")
+        }
         prefiller {
             database("people") {
                 classname.set("com.test.PeopleDatabase")
@@ -50,5 +54,5 @@ open class NoSchemaLocationJavaProjectSpec : JavaProjectSpec() {
             
     """.trimIndent()
 
-    override fun toString() = "Java project without schema location configured"
+    override fun toString() = "Java project without schema location configured ($versionCatalog)"
 }

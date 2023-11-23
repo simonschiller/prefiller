@@ -16,10 +16,13 @@
 
 package io.github.simonschiller.prefiller.testutil.spec
 
+import io.github.simonschiller.prefiller.testutil.compatibility.AgpVersionCompatibility.agpHasNamespaceSupport
 import java.io.File
 import java.util.Properties
 
-abstract class BaseProjectSpec : ProjectSpec {
+abstract class BaseProjectSpec(
+    override val versionCatalog: VersionCatalog,
+) : ProjectSpec {
 
     override fun getSettingsGradleContent(): String = "include(':module')"
 
@@ -30,9 +33,15 @@ abstract class BaseProjectSpec : ProjectSpec {
 
     override fun getLocalPropertiesContent() = "sdk.dir=${getAndroidHome()}"
 
-    override fun getAndroidManifestContent() = """
-        <manifest package="com.test" />
-    """.trimIndent()
+    override fun getAndroidManifestContent() = if (!versionCatalog.agpHasNamespaceSupport()) {
+        """
+            <manifest package="com.test" />
+        """.trimIndent()
+    } else {
+        """
+            <manifest />
+        """.trimIndent()
+    }
 
     override fun getScriptFileContent() = """
         INSERT INTO people(name, age) VALUES ("Mikael Burke", 38);
@@ -42,6 +51,14 @@ abstract class BaseProjectSpec : ProjectSpec {
 
     override fun generateAdditionalFiles(rootDir: File) {
         // By default, no additional files are generated
+    }
+
+    protected fun getNamespaceContent(): String = if (versionCatalog.agpHasNamespaceSupport()) {
+        """
+            namespace("com.test")
+        """.trimIndent()
+    } else {
+        ""
     }
 
     private fun getAndroidHome(): String {

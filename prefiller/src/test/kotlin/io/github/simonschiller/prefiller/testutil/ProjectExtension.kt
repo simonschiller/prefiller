@@ -45,7 +45,7 @@ class ProjectExtension : BeforeEachCallback, AfterEachCallback {
         rootDir.deleteRecursively()
     }
 
-    fun setup(gradleVersion: String, agpVersion: String, projectSpec: ProjectSpec) {
+    fun setup(projectSpec: ProjectSpec) {
         val mainDir = moduleDir.resolve("src/main").also { it.mkdirs() }
         val codeDir = mainDir.resolve("java/com/test").also { it.mkdirs() }
 
@@ -58,7 +58,7 @@ class ProjectExtension : BeforeEachCallback, AfterEachCallback {
         val localProperties = rootDir.resolve("local.properties")
         localProperties.writeText(projectSpec.getLocalPropertiesContent())
 
-        rootBuildGradle.writeText(projectSpec.getRootBuildGradleContent(agpVersion))
+        rootBuildGradle.writeText(projectSpec.getRootBuildGradleContent())
         moduleBuildGradle.writeText(projectSpec.getModuleBuildGradleContent())
 
         val androidManifest = mainDir.resolve("AndroidManifest.xml")
@@ -71,7 +71,7 @@ class ProjectExtension : BeforeEachCallback, AfterEachCallback {
         databaseClass.writeText(projectSpec.getDatabaseClassContent())
 
         scriptFile.writeText(projectSpec.getScriptFileContent())
-        gradleVersionFile.writeText(gradleVersion)
+        gradleVersionFile.writeText(projectSpec.versionCatalog.gradleVersion)
 
         projectSpec.generateAdditionalFiles(rootDir)
     }
