@@ -19,8 +19,8 @@ object Versions {
     const val MIN_SDK = 21
     const val TARGET_SDK = 34
 
-    const val AGP = "8.1.3" // https://maven.google.com/web/index.html#com.android.tools.build:gradle
-    const val KOTLIN = "1.9.20" // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib
+    const val AGP = "8.1.4" // https://maven.google.com/web/index.html#com.android.tools.build:gradle
+    const val KOTLIN = "1.9.21" // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib
     const val KSP = "1.9.20-1.0.14" // https://mvnrepository.com/artifact/com.google.devtools.ksp/com.google.devtools.ksp.gradle.plugin?repo=central
     const val PUBLISH_GRADLE_PLUGIN = "1.2.1" // https://mvnrepository.com/artifact/com.gradle.publish/plugin-publish-plugin?repo=gradle-plugins
 
