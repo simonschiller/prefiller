@@ -17,6 +17,8 @@ jobs:
       matrix:
         include:
           # AGP 8.1.*
+          - gradle: 8.5
+            agp: 8.1.4
           - gradle: 8.4
             agp: 8.1.4
           - gradle: 8.3
@@ -29,6 +31,8 @@ jobs:
             agp: 8.1.4
 
           # AGP 8.0.*
+          - gradle: 8.5
+            agp: 8.0.2
           - gradle: 8.4
             agp: 8.0.2
           - gradle: 8.3
@@ -41,6 +45,8 @@ jobs:
             agp: 8.0.2
 
           # AGP 7.4.*
+          - gradle: 8.5
+            agp: 7.4.2
           - gradle: 8.4
             agp: 7.4.2
           - gradle: 8.3
@@ -207,7 +213,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17

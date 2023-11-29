@@ -47,6 +47,7 @@ object TestVersions {
 
     // See https://gradle.org/releases
     private val gradleVersions = listOf(
+        "8.5",
         "8.4",
         "8.3",
         "8.2.1",

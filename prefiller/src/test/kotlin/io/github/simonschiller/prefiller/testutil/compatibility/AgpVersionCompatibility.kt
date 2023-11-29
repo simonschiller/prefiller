@@ -36,7 +36,8 @@ internal object AgpVersionCompatibility {
     fun agpIsCompatibleWithRuntime(agpVersion: Version): Boolean {
         val jvmVersion = Runtime.version().version()[0]
         return when {
-            agpVersion >= AGP_8_0_0 -> jvmVersion >= 17
+            agpVersion >= AGP_8_3_0 -> jvmVersion >= 17
+            agpVersion >= AGP_8_0_0 -> jvmVersion in 17..20
             agpVersion >= AGP_7_0_0 -> jvmVersion >= 11
             else -> jvmVersion in 8..11
         }
