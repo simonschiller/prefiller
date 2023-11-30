@@ -73,6 +73,7 @@ object TestVersions {
 
     // See https://developer.android.com/studio/releases/gradle-plugin
     private val agpVersions = listOf(
+        "8.2.0",
         "8.1.4",
         "8.0.2",
         "7.4.2",

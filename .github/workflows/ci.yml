@@ -16,6 +16,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # AGP 8.2.*
+          - gradle: 8.5
+            agp: 8.2.0
+          - gradle: 8.4
+            agp: 8.2.0
+          - gradle: 8.3
+            agp: 8.2.0
+          - gradle: 8.2.1
+            agp: 8.2.0
+
           # AGP 8.1.*
           - gradle: 8.5
             agp: 8.1.4
