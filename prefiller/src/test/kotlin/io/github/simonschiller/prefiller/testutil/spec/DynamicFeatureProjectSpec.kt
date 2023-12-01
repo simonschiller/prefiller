@@ -16,11 +16,14 @@
 
 package io.github.simonschiller.prefiller.testutil.spec
 
+import io.github.simonschiller.prefiller.testutil.compatibility.AgpVersionCompatibility.agpHasNamespaceSupport
 import java.io.File
 
-open class DynamicFeatureProjectSpec : BaseProjectSpec() {
+open class DynamicFeatureProjectSpec(
+    versionCatalog: VersionCatalog,
+) : BaseProjectSpec(versionCatalog) {
 
-    override fun getRootBuildGradleContent(agpVersion: String) = """
+    override fun getRootBuildGradleContent() = """
         buildscript {
             repositories {
                 mavenLocal()
@@ -28,7 +31,7 @@ open class DynamicFeatureProjectSpec : BaseProjectSpec() {
 		        mavenCentral()
 	        }
 	        dependencies {
-		        classpath("com.android.tools.build:gradle:$agpVersion")
+		        classpath("com.android.tools.build:gradle:${versionCatalog.agpVersion}")
                 classpath("io.github.simonschiller:prefiller:+")
 	        }
         }
@@ -44,11 +47,12 @@ open class DynamicFeatureProjectSpec : BaseProjectSpec() {
             mavenCentral()
         }
         android {
-            compileSdkVersion(${Versions.COMPILE_SDK})
+            compileSdkVersion(${versionCatalog.compileSdk})
+            ${getNamespaceContent()}
         	defaultConfig {
-            	minSdkVersion(${Versions.MIN_SDK})
-            	targetSdkVersion(${Versions.TARGET_SDK})
-            
+            	minSdkVersion(${versionCatalog.minSdk})
+            	targetSdkVersion(${versionCatalog.targetSdk})
+
                 javaCompileOptions {
                     annotationProcessorOptions {
                         arguments["room.schemaLocation"] = projectDir.absolutePath + "/schemas"
@@ -56,15 +60,16 @@ open class DynamicFeatureProjectSpec : BaseProjectSpec() {
                 }
             }
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
+                targetCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
             }
         }    
         dependencies {
             implementation(project(":app"))
-            implementation("${Dependencies.ROOM_RUNTIME}")
-            annotationProcessor("${Dependencies.ROOM_COMPILER}")
-        }    
+            implementation("${versionCatalog.androidxCoreRuntime}")
+            implementation("${versionCatalog.roomRuntime}")
+            annotationProcessor("${versionCatalog.roomCompiler}")
+        }
         prefiller {
             database("people") {
                 classname.set("com.test.PeopleDatabase")
@@ -128,23 +133,36 @@ open class DynamicFeatureProjectSpec : BaseProjectSpec() {
             mavenCentral()
         }
         android {
-            compileSdkVersion(${Versions.COMPILE_SDK})
+            compileSdkVersion(${versionCatalog.compileSdk})
+            ${getAppNamespaceContent()}
         	defaultConfig {
-            	minSdkVersion(${Versions.MIN_SDK})
-            	targetSdkVersion(${Versions.TARGET_SDK})
+            	minSdkVersion(${versionCatalog.minSdk})
+            	targetSdkVersion(${versionCatalog.targetSdk})
             }
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
+                targetCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
             }
             dynamicFeatures = [":module"]
         }
             
     """.trimIndent()
 
-    private fun getAppAndroidManifestContent() = """
-        <manifest package="com.test" />
-    """.trimIndent()
+    private fun getAppNamespaceContent(): String = if (versionCatalog.agpHasNamespaceSupport()) {
+        """
+            namespace("com.test.app")
+        """.trimIndent()
+    } else {
+        ""
+    }
 
-    override fun toString() = "Dynamic feature module project"
+    private fun getAppAndroidManifestContent() = if (!versionCatalog.agpHasNamespaceSupport()) {
+        """
+            <manifest package="com.test" />
+        """.trimIndent()
+    } else {
+        "<manifest />"
+    }
+
+    override fun toString() = "Dynamic feature module project ($versionCatalog)"
 }

@@ -16,7 +16,9 @@
 
 package io.github.simonschiller.prefiller.testutil.spec
 
-open class NoSchemaLocationKotlinKaptProjectSpec : KotlinKaptProjectSpec() {
+open class NoSchemaLocationKotlinKaptProjectSpec(
+    versionCatalog: VersionCatalog,
+) : KotlinKaptProjectSpec(versionCatalog) {
 
     override fun getModuleBuildGradleContent() = """
         apply plugin: "com.android.application"
@@ -29,29 +31,32 @@ open class NoSchemaLocationKotlinKaptProjectSpec : KotlinKaptProjectSpec() {
             mavenCentral()
         }
         android {
-            compileSdkVersion(${Versions.COMPILE_SDK})
+            compileSdkVersion(${versionCatalog.compileSdk})
+            ${getNamespaceContent()}
         	defaultConfig {
-            	minSdkVersion(${Versions.MIN_SDK})
-            	targetSdkVersion(${Versions.TARGET_SDK})
+            	minSdkVersion(${versionCatalog.minSdk})
+            	targetSdkVersion(${versionCatalog.targetSdk})
             }
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
+                targetCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
             }
         }    
         dependencies {
-            implementation("${Dependencies.KOTLIN_STDLIB}")
-            implementation("${Dependencies.ROOM_RUNTIME}")
-            kapt("${Dependencies.ROOM_COMPILER}")
-        }    
+            implementation("${versionCatalog.androidxCoreRuntime}")
+            implementation("${versionCatalog.kotlinStdlib}")
+            implementation("${versionCatalog.roomRuntime}")
+            kapt("${versionCatalog.roomCompiler}")
+        }
         prefiller {
             database("people") {
                 classname.set("com.test.PeopleDatabase")
                 scripts.from(file("setup.sql"))
             }
         }
-            
+        ${getKotlinTaskSetupContent()}
+
     """.trimIndent()
 
-    override fun toString() = "Kotlin project using KAPT without schema location configured"
+    override fun toString() = "Kotlin project using KAPT without schema location configured ($versionCatalog)"
 }

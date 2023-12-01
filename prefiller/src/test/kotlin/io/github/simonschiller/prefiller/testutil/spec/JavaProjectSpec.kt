@@ -16,9 +16,11 @@
 
 package io.github.simonschiller.prefiller.testutil.spec
 
-open class JavaProjectSpec : BaseProjectSpec() {
+open class JavaProjectSpec(
+    versionCatalog: VersionCatalog,
+) : BaseProjectSpec(versionCatalog) {
 
-    override fun getRootBuildGradleContent(agpVersion: String) = """
+    override fun getRootBuildGradleContent() = """
         buildscript {
             repositories {
                 mavenLocal()
@@ -26,7 +28,7 @@ open class JavaProjectSpec : BaseProjectSpec() {
 		        mavenCentral()
 	        }
 	        dependencies {
-		        classpath("com.android.tools.build:gradle:$agpVersion")
+		        classpath("com.android.tools.build:gradle:${versionCatalog.agpVersion}")
                 classpath("io.github.simonschiller:prefiller:+")
 	        }
         }
@@ -42,11 +44,12 @@ open class JavaProjectSpec : BaseProjectSpec() {
             mavenCentral()
         }
         android {
-            compileSdkVersion(${Versions.COMPILE_SDK})
+            compileSdkVersion(${versionCatalog.compileSdk})
+            ${getNamespaceContent()}
         	defaultConfig {
-            	minSdkVersion(${Versions.MIN_SDK})
-            	targetSdkVersion(${Versions.TARGET_SDK})
-            
+            	minSdkVersion(${versionCatalog.minSdk})
+            	targetSdkVersion(${versionCatalog.targetSdk})
+
                 javaCompileOptions {
                     annotationProcessorOptions {
                         arguments["room.schemaLocation"] = projectDir.absolutePath + "/schemas"
@@ -54,14 +57,15 @@ open class JavaProjectSpec : BaseProjectSpec() {
                 }
             }
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
+                targetCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
             }
         }    
         dependencies {
-            implementation("${Dependencies.ROOM_RUNTIME}")
-            annotationProcessor("${Dependencies.ROOM_COMPILER}")
-        }    
+            implementation("${versionCatalog.androidxCoreRuntime}")
+            implementation("${versionCatalog.roomRuntime}")
+            annotationProcessor("${versionCatalog.roomCompiler}")
+        }
         prefiller {
             database("people") {
                 classname.set("com.test.PeopleDatabase")
@@ -101,5 +105,5 @@ open class JavaProjectSpec : BaseProjectSpec() {
             
     """.trimIndent()
 
-    override fun toString() = "Normal Java project"
+    override fun toString() = "Normal Java project ($versionCatalog)"
 }

@@ -16,9 +16,11 @@
 
 package io.github.simonschiller.prefiller.testutil.spec
 
-open class NonAndroidProjectSpec : BaseProjectSpec() {
+open class NonAndroidProjectSpec(
+    versionCatalog: VersionCatalog,
+) : BaseProjectSpec(versionCatalog) {
 
-    override fun getRootBuildGradleContent(agpVersion: String) = """
+    override fun getRootBuildGradleContent() = """
         buildscript {
             repositories {
                 mavenLocal()
@@ -63,5 +65,5 @@ open class NonAndroidProjectSpec : BaseProjectSpec() {
             
     """.trimIndent()
 
-    override fun toString() = "Non-Android project"
+    override fun toString() = "Non-Android project ($versionCatalog)"
 }

@@ -122,7 +122,8 @@ The source code of the plugin is located in the `prefiller` folder. The `sample`
 * Build the plugin: `./gradlew :prefiller:assemble`
 * Run unit tests: `./gradlew :prefiller:test`
     * By default, all tests will be executed against all compatible Gradle and Android Gradle plugin versions. If you want to run tests against a specific version, you can set the `GRADLE_VERSION` and `AGP_VERSION` environment variables.
-    * For example: `GRADLE_VERSION=7.5.1 AGP_VERSION=7.2.2 ./gradlew :prefiller:test`
+     You can also specify the JDK version used to run the tests suite using the `TEST_JDK_VERSION` environment variable.
+    * For example: `GRADLE_VERSION=7.5.1 AGP_VERSION=7.2.2 TEST_JDK_VERSION=11 ./gradlew :prefiller:test`
 * Run all tests:
     * First publish the plugin to your local Maven repo: `./gradlew :prefiller:publishToMavenLocal`
     * Then execute the tests: `./gradlew test`

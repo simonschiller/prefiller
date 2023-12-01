@@ -16,9 +16,11 @@
 
 package io.github.simonschiller.prefiller.testutil.spec
 
-open class KotlinKspProjectSpec : KotlinProjectSpec() {
+open class KotlinKspProjectSpec(
+    versionCatalog: VersionCatalog,
+) : KotlinProjectSpec(versionCatalog) {
 
-    override fun getRootBuildGradleContent(agpVersion: String) = """
+    override fun getRootBuildGradleContent() = """
         buildscript {
             repositories {
                 mavenLocal()
@@ -26,9 +28,9 @@ open class KotlinKspProjectSpec : KotlinProjectSpec() {
 		        mavenCentral()
 	        }
 	        dependencies {
-		        classpath("com.android.tools.build:gradle:$agpVersion")
-                classpath("${Dependencies.KOTLIN_GRADLE_PLUGIN}")
-                classpath("${Dependencies.KSP_GRADLE_PLUGIN}")
+		        classpath("com.android.tools.build:gradle:${versionCatalog.agpVersion}")
+                classpath("${versionCatalog.kotlinGradlePlugin}")
+                classpath("${versionCatalog.kspGradlePlugin}")
                 classpath("io.github.simonschiller:prefiller:+")
 	        }
         }
@@ -46,32 +48,35 @@ open class KotlinKspProjectSpec : KotlinProjectSpec() {
             mavenCentral()
         }
         android {
-            compileSdkVersion(${Versions.COMPILE_SDK})
+            compileSdkVersion(${versionCatalog.compileSdk})
+            ${getNamespaceContent()}
         	defaultConfig {
-            	minSdkVersion(${Versions.MIN_SDK})
-            	targetSdkVersion(${Versions.TARGET_SDK})
+            	minSdkVersion(${versionCatalog.minSdk})
+            	targetSdkVersion(${versionCatalog.targetSdk})
             }
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
+                targetCompatibility = JavaVersion.${versionCatalog.compatibilityJavaVersion.name}
             }
             ksp {
                 arg("room.schemaLocation", projectDir.absolutePath + "/schemas")
             }
         }    
         dependencies {
-            implementation("${Dependencies.KOTLIN_STDLIB}")
-            implementation("${Dependencies.ROOM_RUNTIME}")
-            ksp("${Dependencies.ROOM_COMPILER}")
-        }    
+            implementation("${versionCatalog.androidxCoreRuntime}")
+            implementation("${versionCatalog.kotlinStdlib}")
+            implementation("${versionCatalog.roomRuntime}")
+            ksp("${versionCatalog.roomCompiler}")
+        }
         prefiller {
             database("people") {
                 classname.set("com.test.PeopleDatabase")
                 scripts.from(file("setup.sql"))
             }
         }
-            
+        ${getKotlinTaskSetupContent()}
+
     """.trimIndent()
 
-    override fun toString() = "Kotlin project using KSP"
+    override fun toString() = "Kotlin project using KSP ($versionCatalog)"
 }

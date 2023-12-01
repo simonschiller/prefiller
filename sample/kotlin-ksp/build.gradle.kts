@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -23,10 +26,10 @@ plugins {
 
 android {
     compileSdk = Versions.COMPILE_SDK
+    namespace = "io.github.simonschiller.prefiller.sample"
 
     defaultConfig {
         minSdk = Versions.MIN_SDK
-        targetSdk = Versions.TARGET_SDK
 
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
@@ -38,8 +41,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
@@ -53,6 +56,12 @@ dependencies {
     testImplementation(Dependencies.TRUTH)
     testImplementation(Dependencies.ANDROIDX_TEST)
     testImplementation(Dependencies.ROBOLECTRIC)
+}
+
+tasks.withType<KotlinJvmCompile>().configureEach {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
+    }
 }
 
 prefiller {

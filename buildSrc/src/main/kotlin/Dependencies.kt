@@ -15,28 +15,29 @@
  */
 
 object Versions {
-    const val COMPILE_SDK = 32
+    const val COMPILE_SDK = 34
     const val MIN_SDK = 21
-    const val TARGET_SDK = 32
+    const val TARGET_SDK = 34
 
-    const val AGP = "7.2.2" // https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google
-    const val KOTLIN = "1.6.21" // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib
-    const val KSP = "1.6.21-1.0.6" // https://mvnrepository.com/artifact/com.google.devtools.ksp/com.google.devtools.ksp.gradle.plugin
-    const val PUBLISH_GRADLE_PLUGIN = "0.21.0" // https://mvnrepository.com/artifact/com.gradle.publish/plugin-publish-plugin?repo=gradle-plugins
+    const val AGP = "8.2.0" // https://maven.google.com/web/index.html#com.android.tools.build:gradle
+    const val KOTLIN = "1.9.21" // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib
+    const val KSP = "1.9.21-1.0.15" // https://mvnrepository.com/artifact/com.google.devtools.ksp/com.google.devtools.ksp.gradle.plugin?repo=central
+    const val PUBLISH_GRADLE_PLUGIN = "1.2.1" // https://mvnrepository.com/artifact/com.gradle.publish/plugin-publish-plugin?repo=gradle-plugins
 
-    const val SDK_COMMON = "30.2.2" // https://mvnrepository.com/artifact/com.android.tools/sdk-common?repo=google
-    const val ANTLR = "4.10.1" // https://mvnrepository.com/artifact/org.antlr/antlr4
-    const val SQLITE = "3.39.2.0" // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
-    const val JUNIT_5 = "5.9.0" // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
-    const val TRUTH = "1.1.3" // https://mvnrepository.com/artifact/com.google.truth/truth
+    const val SDK_COMMON = "31.1.4" // https://maven.google.com/web/index.html#com.android.tools:sdk-common
+    const val ANTLR = "4.13.1" // https://mvnrepository.com/artifact/org.antlr/antlr4
+    const val SQLITE = "3.44.0.0" // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+    const val JSONP = "2.0.1" // https://mvnrepository.com/artifact/org.glassfish/jakarta.json
+    const val JUNIT_5 = "5.10.1" // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+    const val TRUTH = "1.1.5" // https://mvnrepository.com/artifact/com.google.truth/truth
 
-    const val APPCOMPAT = "1.4.2" // https://mvnrepository.com/artifact/androidx.appcompat/appcompat
-    const val ROOM = "2.4.3" // https://mvnrepository.com/artifact/androidx.room/room-runtime
+    const val APPCOMPAT = "1.4.2" // https://maven.google.com/web/index.html#androidx.appcompat:appcompat
+    const val CORE_RUNTIME = "2.2.0" // https://maven.google.com/web/index.html#androidx.arch.core:core-runtime
+    const val ROOM = "2.6.0" // https://maven.google.com/web/index.html#androidx.room:room-runtime
     const val JUNIT_4 = "4.13.2" // https://mvnrepository.com/artifact/junit/junit
-    const val ROBOLECTRIC = "4.8.1" // https://mvnrepository.com/artifact/org.robolectric/robolectric
+    const val ROBOLECTRIC = "4.11.1" // https://mvnrepository.com/artifact/org.robolectric/robolectric
 
-    // Alpha version required to be compatible with Android 12
-    const val ANDROIDX_TEST = "1.1.4-alpha07" // https://mvnrepository.com/artifact/androidx.test.ext/junit
+    const val ANDROIDX_TEST = "1.1.5" // https://maven.google.com/web/index.html#androidx.test.ext:junit
 }
 
 object Dependencies {
@@ -48,7 +49,9 @@ object Dependencies {
     const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
     const val SDK_COMMON = "com.android.tools:common:${Versions.SDK_COMMON}"
     const val ANTLR = "org.antlr:antlr4:${Versions.ANTLR}"
+    const val ANTLR_RUNTIME = "org.antlr:antlr4-runtime:${Versions.ANTLR}"
     const val SQLITE = "org.xerial:sqlite-jdbc:${Versions.SQLITE}"
+    const val JSONP = "org.glassfish:jakarta.json:${Versions.JSONP}"
     const val JUNIT_5_ENGINE = "org.junit.jupiter:junit-jupiter-engine:${Versions.JUNIT_5}"
     const val JUNIT_5_API = "org.junit.jupiter:junit-jupiter-api:${Versions.JUNIT_5}"
     const val JUNIT_5_PARAMS = "org.junit.jupiter:junit-jupiter-params:${Versions.JUNIT_5}"
